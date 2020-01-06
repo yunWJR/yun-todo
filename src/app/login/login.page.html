@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>login</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title align="center" margin-bottom="40px">YUN</ion-card-title>
+
+            <ion-card-subtitle align="center">TODO</ion-card-subtitle>
+        </ion-card-header>
+
+    </ion-card>
+
+
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" novalidate>
+        <ion-row>
+            <ion-col>
+                <ion-list inset class="no-border">
+                    <ion-item [class.error]="!username.valid && username.touched">
+                        <ion-label position="stacked">帐号
+                            <ion-text color="danger">*</ion-text>
+                        </ion-label>
+                        <ion-input type="text" [formControl]="username" clearInput=true></ion-input>
+                    </ion-item>
+                    <div *ngIf="username.hasError('required') && username.touched" class="error-message">*请输入用户名</div>
+                    <!--                    <div *ngIf="(username.hasError('minlength')||username.hasError('maxlength')||username.hasError('pattern')) && username.touched" class="error-message">*请输入正确的电话号码</div>-->
+
+                    <ion-item>
+                        <ion-label position="stacked">密码
+                            <ion-text color="danger">*</ion-text>
+                        </ion-label>
+                        <ion-input type="password" [formControl]="password" clearInput=true></ion-input>
+                    </ion-item>
+                    <!--                    <div *ngIf="password.hasError('required') && password.touched" class="error-message">*请输入密码</div>-->
+                    <!--                    <div *ngIf="(password.hasError('minlength')) && password.touched" class="error-message">*密码长度最少为六位</div>-->
+
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <div class="ion-padding">
+                    <ion-button expand="block" type="submit" class="ion-no-margin" [disabled]="!loginForm.valid">登 录
+                    </ion-button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </form>
+
+    <div class="ion-padding">
+        <ion-button expand="block" type="submit" class="ion-no-margin" (click)="register()">注 册</ion-button>
+    </div>
+
+    <!--    <div class="ion-padding">-->
+    <!--        <ion-button expand="block" type="submit" class="ion-no-margin" href="/login/register">注 册2</ion-button>-->
+    <!--    </div>-->
+
+</ion-content>
