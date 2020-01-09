@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {Theme, ThemeService} from '../../core/theme.service';
 import {PageList} from '../../core/base-model';
 import {HttpParams} from '@angular/common/http';
-import {IonVirtualScroll} from '@ionic/angular/dist/directives/virtual-scroll/virtual-scroll';
 
 
 @Component({
@@ -27,7 +26,6 @@ export class Tab2Page {
     }
 
     doRefresh() {
-        console.log('doRefresh');
         this.getPageList();
     }
 
