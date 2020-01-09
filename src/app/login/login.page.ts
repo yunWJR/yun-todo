@@ -39,8 +39,6 @@ export class LoginPage implements OnInit {
             sessionStorage.setItem('token', res.loginToken);
             this.navCtrl.navigateForward('');
         });
-
-        this.navCtrl.navigateForward('');
     }
 
     register() {

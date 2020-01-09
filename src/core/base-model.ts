@@ -6,7 +6,21 @@ export class PageList<T> {
     results: T[] = [];
 
     loadCmp(): boolean {
-        return this.pageIndex === this.totalCount;
+        return this.pageIndex === this.totalPage;
+    }
+
+    appendPage(rst) {
+        const results = this.results;
+        const newList: [] = rst.results;
+        for (const nI of newList) {
+            results.push(nI);
+        }
+
+        this.pageIndex = rst.pageIndex;
+        this.pageSize = rst.pageSize;
+        this.totalCount = rst.totalCount;
+        this.totalPage = rst.totalPage;
+        this.results = results;
     }
 
     addPage(rst): PageList<T> {

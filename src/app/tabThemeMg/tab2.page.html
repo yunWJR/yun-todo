@@ -7,41 +7,46 @@
 </ion-header>
 
 <ion-content>
+    <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
+        <ion-refresher-content
+                pullingIcon="arrow-dropdown"
+                pullingText="下拉刷新"
+                refreshingSpinner="circles"
+                refreshingText="刷新中...">
+        </ion-refresher-content>
+    </ion-refresher>
 
-    <ion-button (click)="toggleInfiniteScroll()" expand="block">
-        Toggle Infinite Scroll
-    </ion-button>
-
-
-<!--    <ion-list>-->
-<!--        <ion-item *ngFor="let item of list">-->
-<!--            <ion-label>{{item.name}}</ion-label>-->
-<!--            <ion-label>{{item.remark}}</ion-label>-->
-<!--        </ion-item>-->
-<!--    </ion-list>-->
-
-    <ion-virtual-scroll [items]="list" >
-        <ion-item *virtualItem="let item;">
+    <ion-list>
+        <ion-item *ngFor="let item of pData.results">
             <ion-card-header>
                 <ion-card-title>{{ item.name }}</ion-card-title>
             </ion-card-header>
             <ion-card-content>{{ item.remark }}</ion-card-content>
         </ion-item>
-    </ion-virtual-scroll>
+    </ion-list>
 
-<!--    <ion-virtual-scroll [items]="list" >-->
-<!--        <ion-card *virtualItem="let item;">-->
-<!--            <ion-card-header>-->
-<!--                <ion-card-title>{{ item.name }}</ion-card-title>-->
-<!--            </ion-card-header>-->
-<!--            <ion-card-content>{{ item.remark }}</ion-card-content>-->
-<!--        </ion-card>-->
-<!--    </ion-virtual-scroll>-->
+    <!--    <ion-virtual-scroll #ionVirtualScroll [items]="pData.results">-->
+    <!--        <ion-item *virtualItem="let item;">-->
+    <!--            <ion-card-header>-->
+    <!--                <ion-card-title>{{ item.name }}</ion-card-title>-->
+    <!--            </ion-card-header>-->
+    <!--            <ion-card-content>{{ item.remark }}</ion-card-content>-->
+    <!--        </ion-item>-->
+    <!--    </ion-virtual-scroll>-->
 
-    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <!--    <ion-virtual-scroll [items]="list" >-->
+    <!--        <ion-card *virtualItem="let item;">-->
+    <!--            <ion-card-header>-->
+    <!--                <ion-card-title>{{ item.name }}</ion-card-title>-->
+    <!--            </ion-card-header>-->
+    <!--            <ion-card-content>{{ item.remark }}</ion-card-content>-->
+    <!--        </ion-card>-->
+    <!--    </ion-virtual-scroll>-->
+
+    <ion-infinite-scroll #infiniteScroll threshold="100px" (ionInfinite)="loadNextPageData($event)">
         <ion-infinite-scroll-content
                 loadingSpinner="bubbles"
-                loadingText="Loading more data...">
+                loadingText="加载数据中...">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>
