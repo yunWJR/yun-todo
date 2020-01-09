@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators, FormGroup, AbstractControl} from '@angular/forms';
-import {Events, NavController, NavParams} from '@ionic/angular';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {NavController} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {LoginPara, LoginService, LoginUser} from '../../core/login.service';
 
 @Component({
     selector: 'app-login',
@@ -9,12 +10,13 @@ import {Router} from '@angular/router';
     styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-    private username: AbstractControl;
-    private password: AbstractControl;
-    private loginForm: FormGroup;
+    public username: AbstractControl;
+    public password: AbstractControl;
+    public loginForm: FormGroup;
 
     constructor(public navCtrl: NavController,
                 private router: Router,
+                public service: LoginService,
                 private formBuilder: FormBuilder) {
         this.loginForm = formBuilder.group({
             username: ['', Validators.compose([Validators.minLength(1), Validators.maxLength(16), Validators.required])],
@@ -28,6 +30,16 @@ export class LoginPage implements OnInit {
     }
 
     login(value) {
+        const para = new LoginPara();
+        para.acctName = 'yunyunyun';
+        para.password = 'dcad25f8708fa492835311d1d309f887';
+
+        this.service.login(para).subscribe((res: LoginUser) => {
+            console.log(res);
+            sessionStorage.setItem('token', res.loginToken);
+            this.navCtrl.navigateForward('');
+        });
+
         this.navCtrl.navigateForward('');
     }
 

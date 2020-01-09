@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            主题列表
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-button (click)="toggleInfiniteScroll()" expand="block">
+        Toggle Infinite Scroll
+    </ion-button>
+
+
+<!--    <ion-list>-->
+<!--        <ion-item *ngFor="let item of list">-->
+<!--            <ion-label>{{item.name}}</ion-label>-->
+<!--            <ion-label>{{item.remark}}</ion-label>-->
+<!--        </ion-item>-->
+<!--    </ion-list>-->
+
+    <ion-virtual-scroll [items]="list" >
+        <ion-item *virtualItem="let item;">
+            <ion-card-header>
+                <ion-card-title>{{ item.name }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>{{ item.remark }}</ion-card-content>
+        </ion-item>
+    </ion-virtual-scroll>
+
+<!--    <ion-virtual-scroll [items]="list" >-->
+<!--        <ion-card *virtualItem="let item;">-->
+<!--            <ion-card-header>-->
+<!--                <ion-card-title>{{ item.name }}</ion-card-title>-->
+<!--            </ion-card-header>-->
+<!--            <ion-card-content>{{ item.remark }}</ion-card-content>-->
+<!--        </ion-card>-->
+<!--    </ion-virtual-scroll>-->
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
