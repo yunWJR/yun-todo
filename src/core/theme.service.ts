@@ -24,6 +24,8 @@ export class ThemeTagProp {
     dataType: number;
     dataTypeId: number;
     dataUnit: string;
+
+    dataValue: string; // 自定义属性：输入值
 }
 
 @Injectable({

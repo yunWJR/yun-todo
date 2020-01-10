@@ -18,9 +18,9 @@
 
     <ion-list lines="none">
         <ion-item-group *ngFor="let item of list">
-            <ion-item-divider>
+            <ion-item-divider color="tertiary">
                 <ion-label>{{timeStr(item.dateTime)}}</ion-label>
-                <ion-note color="primary">{{item.name}}</ion-note>
+                <ion-note color="success">{{item.name}}</ion-note>
             </ion-item-divider>
 
             <ion-item *ngFor="let prop of item.propDataList">
