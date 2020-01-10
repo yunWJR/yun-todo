@@ -79,7 +79,7 @@ export class CreateTagComponent implements OnInit {
         title = title + ' (';
 
         title = title + '类型：' + this.dataTypeStr(prop.dataType);
-        if (prop.dataUnit.length > 0) {
+        if (prop.dataUnit) {
             title = title + ';  单位：' + prop.dataUnit;
         }
 

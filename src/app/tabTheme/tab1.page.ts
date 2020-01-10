@@ -125,6 +125,9 @@ export class Tab1Page {
     async presentActionSheet(res: Theme) {
         const buttons = [];
         for (const tag of res.tagList) {
+            if (tag.propList.length === 0) {
+                continue;
+            }
             const bt = {
                 text: tag.name,
                 role: '',

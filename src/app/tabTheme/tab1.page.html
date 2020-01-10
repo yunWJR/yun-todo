@@ -3,7 +3,14 @@
         <ion-title>
             记录列表
         </ion-title>
+
     </ion-toolbar>
+
+    <ion-item color="warning">
+        <ion-label>日期</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" min="1000-01-01" max="3000-12-31"
+                      value="2002-09-23T15:03:46.789"></ion-datetime>
+    </ion-item>
 </ion-header>
 
 <ion-content>
@@ -18,9 +25,9 @@
 
     <ion-list lines="none">
         <ion-item-group *ngFor="let item of list">
-            <ion-item-divider color="tertiary">
+            <ion-item-divider color="primary">
                 <ion-label>{{timeStr(item.dateTime)}}</ion-label>
-                <ion-note color="success">{{item.name}}</ion-note>
+                <ion-note color="light">{{item.name}}</ion-note>
             </ion-item-divider>
 
             <ion-item *ngFor="let prop of item.propDataList">
@@ -35,7 +42,7 @@
 
     <!-- Fixed Floating Action Button that does not scroll with the content -->
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="primary" (click)="addTag()">
+        <ion-fab-button color="warning" (click)="addTag()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>
