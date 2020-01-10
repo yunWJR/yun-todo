@@ -20,7 +20,8 @@ export class Tab1Page {
 
     themeList: Theme[];
     selTheme: Theme;
-    selThemeD: '全部';
+
+    tagTheme: Theme;
 
     list: ThemeTagData[] = [];
 
@@ -35,7 +36,6 @@ export class Tab1Page {
 
         this.themeList = [this.allTheme()];
         this.selTheme = this.themeList[0];
-        this.selThemeD = '全部';
 
         this.getList();
         this.getThemeList();
@@ -61,7 +61,6 @@ export class Tab1Page {
     }
 
     getList() {
-
         let params = new HttpParams();
         if (this.selTheme.id) {
             const tmId = this.selTheme.id.toString();
@@ -137,11 +136,16 @@ export class Tab1Page {
     }
 
     addTag() {
-        if (this.selTheme != null) {
-            this.presentActionSheet(this.selTheme);
+        if (!this.selTheme.id) {
+            return;
+        }
+
+        if (this.tagTheme != null && this.tagTheme.id === this.selTheme.id) {
+            this.presentActionSheet(this.tagTheme);
 
             return;
         }
+
 
         let themeId = null;
         if (this.selTheme) {
@@ -149,17 +153,17 @@ export class Tab1Page {
         }
 
         this.themeRqt.info(themeId, null).subscribe((res: Theme) => {
-            this.selTheme = res;
+            this.tagTheme = res;
 
             // 选择填写的信息
-            this.presentActionSheet(res);
+            this.presentActionSheet(this.tagTheme);
         });
     }
 
     addTagData(tagId: number) {
         let tag = null;
 
-        for (const tagIt of this.selTheme.tagList) {
+        for (const tagIt of this.tagTheme.tagList) {
             if (tagIt.id === tagId) {
                 tag = tagIt;
                 break;
@@ -169,8 +173,6 @@ export class Tab1Page {
         if (tag == null) {
             return;
         }
-
-        console.log(tag);
 
         const rst = this.presentPopover(null, tag);
     }

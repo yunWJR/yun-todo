@@ -22,22 +22,21 @@ export class CreateTagComponent implements OnInit {
     ngOnInit() {
     }
 
+    clearData() {
+        for (const pp of this.tag.propList) {
+            pp.dataValue = null;
+        }
+    }
+
     cancel() {
+        this.clearData();
         this.popoverCtrl.dismiss({
             save: false,
         });
     }
 
     save() {
-        console.log(this.tag);
-
         this.saveTagData();
-        return;
-        // using the injected ModalController this page
-        // can "dismiss" itself and optionally pass back data
-        this.popoverCtrl.dismiss({
-            save: true,
-        });
     }
 
     saveTagData() {
@@ -45,8 +44,6 @@ export class CreateTagComponent implements OnInit {
         dto.tagId = this.tag.id;
         dto.dateTime = new Date().getTime();
         dto.propList = [];
-
-        console.log(this.tag);
 
         let hasItem = false;
         for (const prop of this.tag.propList) {
@@ -68,6 +65,7 @@ export class CreateTagComponent implements OnInit {
         }
 
         this.themeTagDataService.save(dto).subscribe((res: any) => {
+            this.clearData();
             this.popoverCtrl.dismiss({
                 save: true,
             });
