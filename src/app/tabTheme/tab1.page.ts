@@ -14,10 +14,15 @@ import {CreateTagComponent} from './create-tag/create-tag.component';
 export class Tab1Page {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
-    theme: Theme;
-    list: ThemeTagData[] = [];
+    dateTimePickerOptions: any;
+    selDateTime: string = new Date().toDateString();
 
-    themeId: number;
+
+    themeList: Theme[];
+    selTheme: Theme;
+    selThemeD: '全部';
+
+    list: ThemeTagData[] = [];
 
     constructor(
         public navCtrl: NavController,
@@ -27,8 +32,28 @@ export class Tab1Page {
         public actionSheetController: ActionSheetController,
         public popoverController: PopoverController,
     ) {
-        this.themeId = 1; // todo
+
+        this.themeList = [this.allTheme()];
+        this.selTheme = this.themeList[0];
+        this.selThemeD = '全部';
+
         this.getList();
+        this.getThemeList();
+
+        this.dateTimePickerOptions = {
+            buttons: [{
+                text: 'Save',
+                handler: () => {
+                    console.log('Clicked Save!');
+                }
+            }, {
+                text: 'Log',
+                handler: () => {
+                    console.log('Clicked Log. Do not Dismiss.');
+                    return false;
+                }
+            }]
+        };
     }
 
     doRefresh() {
@@ -36,14 +61,63 @@ export class Tab1Page {
     }
 
     getList() {
-        const params = new HttpParams();
+
+        let params = new HttpParams();
+        if (this.selTheme.id) {
+            const tmId = this.selTheme.id.toString();
+            params = params.append('themeId', tmId);
+        }
+
+        if (this.selDateTime) {
+
+            const dateTime = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
+            params = params.append('date', dateTime);
+        }
 
         this.themeDataRqt.list(params).subscribe((res: ThemeTagData[]) => {
             this.list = res;
 
-            this.theme = null;
-
             this.ionRefresher.complete().then(r => console.log(r));
+        });
+    }
+
+    dateFormat(fmt, date) {
+        let ret;
+        const opt = {
+            'y+': date.getFullYear().toString(),        // 年
+            'M+': (date.getMonth() + 1).toString(),     // 月
+            'd+': date.getDate().toString(),            // 日
+            'H+': date.getHours().toString(),           // 时
+            'm+': date.getMinutes().toString(),         // 分
+            'S+': date.getSeconds().toString()          // 秒
+            // 有其他格式化字符需求可以继续添加，必须转化成字符串
+        };
+        for (const k in opt) {
+            ret = new RegExp('(' + k + ')').exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')));
+            }
+        }
+        return fmt;
+    }
+
+    getThemeList() {
+        this.themeRqt.list().subscribe((res: Theme[]) => {
+            this.themeList = [this.allTheme()];
+
+            let hasTheme = false;
+            for (const re of res) {
+                this.themeList.push(re);
+                if (this.selTheme && this.selTheme.id) {
+                    if (this.selTheme.id === re.id) {
+                        hasTheme = true;
+                    }
+                }
+            }
+
+            if (hasTheme === false) {
+                this.selTheme = this.themeList[0];
+            }
         });
     }
 
@@ -63,14 +137,19 @@ export class Tab1Page {
     }
 
     addTag() {
-        if (this.theme != null) {
-            this.presentActionSheet(this.theme);
+        if (this.selTheme != null) {
+            this.presentActionSheet(this.selTheme);
 
             return;
         }
 
-        this.themeRqt.info(this.themeId, null).subscribe((res: Theme) => {
-            this.theme = res;
+        let themeId = null;
+        if (this.selTheme) {
+            themeId = this.selTheme.id;
+        }
+
+        this.themeRqt.info(themeId, null).subscribe((res: Theme) => {
+            this.selTheme = res;
 
             // 选择填写的信息
             this.presentActionSheet(res);
@@ -80,7 +159,7 @@ export class Tab1Page {
     addTagData(tagId: number) {
         let tag = null;
 
-        for (const tagIt of this.theme.tagList) {
+        for (const tagIt of this.selTheme.tagList) {
             if (tagIt.id === tagId) {
                 tag = tagIt;
                 break;
@@ -154,5 +233,25 @@ export class Tab1Page {
             buttons: buttons,
         });
         await actionSheet.present();
+    }
+
+    dateTimeChange(event) {
+        console.log(this.selDateTime);
+
+        this.getList();
+    }
+
+    allTheme(): Theme {
+        const allTm = new Theme();
+        allTm.name = '全部';
+        allTm.id = null;
+
+        return allTm;
+    }
+
+    themeChange(event) {
+        this.selTheme = this.themeList[event.target.value];
+
+        this.getList();
     }
 }

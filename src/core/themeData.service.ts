@@ -1,5 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Theme} from './theme.service';
 
 export class ThemeTagData {
     id: number;
@@ -8,6 +9,7 @@ export class ThemeTagData {
     name: string;
     remark: string;
     date: string;
+    theme: Theme;
     propDataList: TagPropData[];
 
     time(): string {
