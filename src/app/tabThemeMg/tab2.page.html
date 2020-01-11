@@ -25,6 +25,18 @@
             </ion-select>
         </ion-item>
     </div>
+
+    <div>
+        <ion-item color="secondary" style="width: 100%">
+            <ion-label>类型</ion-label>
+            <ion-select *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消" okText="确定"
+                        (ionChange)="tagChange($event)">
+                <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{i}}">
+                    {{item.name}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </div>
     <ion-fab-list side="top">
         <ion-fab-button>Facebook</ion-fab-button>
         <ion-fab-button>Twitter</ion-fab-button>

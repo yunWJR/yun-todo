@@ -229,8 +229,13 @@ export class Tab2Page {
     themeChange(event) {
         if (event.target.value === -1) {
             this.selTheme = null;
+            this.tagTheme = null;
         } else {
             this.selTheme = this.themeList[event.target.value];
+
+            this.themeRqt.info(this.selTheme.id, null).subscribe((res: Theme) => {
+                this.tagTheme = res;
+            });
         }
 
         this.getList();
@@ -245,5 +250,9 @@ export class Tab2Page {
         });
 
         await alert.present();
+    }
+
+    tagChange(event) {
+        console.log(event);
     }
 }
