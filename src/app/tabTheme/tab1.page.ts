@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {ActionSheetController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
+import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {TagPropData, ThemeDataService, ThemeTagData} from '../../core/themeData.service';
 import {HttpParams} from '@angular/common/http';
@@ -17,7 +17,6 @@ export class Tab1Page {
     dateTimePickerOptions: any;
     selDateTime: string = new Date().toDateString();
 
-
     themeList: Theme[];
     selTheme: Theme;
 
@@ -32,6 +31,7 @@ export class Tab1Page {
         public themeRqt: ThemeService,
         public actionSheetController: ActionSheetController,
         public popoverController: PopoverController,
+        public alertController: AlertController,
     ) {
 
         this.themeList = [this.allTheme()];
@@ -56,8 +56,14 @@ export class Tab1Page {
         };
     }
 
+    ionViewDidEnter() {
+        this.getList();
+        this.getThemeList();
+    }
+
     doRefresh() {
         this.getList();
+        this.getThemeList();
     }
 
     getList() {
@@ -137,6 +143,7 @@ export class Tab1Page {
 
     addTag() {
         if (!this.selTheme.id) {
+            this.presentAlert('请先选择主题！');
             return;
         }
 
@@ -255,5 +262,16 @@ export class Tab1Page {
         this.selTheme = this.themeList[event.target.value];
 
         this.getList();
+    }
+
+    async presentAlert(msg: string) {
+        const alert = await this.alertController.create({
+            header: '提醒',
+            // subHeader: 'Subtitle',
+            message: msg,
+            buttons: ['确定']
+        });
+
+        await alert.present();
     }
 }

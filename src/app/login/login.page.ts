@@ -30,19 +30,18 @@ export class LoginPage implements OnInit {
     }
 
     login(value) {
+        console.log(value);
         const para = new LoginPara();
-        para.acctName = 'yunyunyun';
-        para.password = 'dcad25f8708fa492835311d1d309f887';
+        para.acctName = value.username;
+        para.password = value.password;
 
         this.service.login(para).subscribe((res: LoginUser) => {
-            console.log(res);
             sessionStorage.setItem('token', res.loginToken);
-            this.navCtrl.navigateForward('');
+            this.navCtrl.navigateRoot('');
         });
     }
 
     register() {
-        console.log('register');
-        this.navCtrl.navigateForward('/login/register');
+        this.navCtrl.navigateRoot('/login/register');
     }
 }

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, mergeMap} from 'rxjs/operators';
 import {ApiService} from '../api.service';
+import {AlertController, LoadingController, ToastController} from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -16,13 +17,15 @@ export class HttpInterceptorsService implements HttpInterceptor {
 
     constructor(
         public router: Router,
+        public loadingCtrl: LoadingController,
+        private alertCtrl: AlertController,
+        private toastCtrl: ToastController,
     ) {
         this.BaseUrl = this.apiService.BaseUrl;
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         const token = sessionStorage.getItem('token') || '';
-
 
         const fullUrl = req.url.indexOf('http') === 0;
 
