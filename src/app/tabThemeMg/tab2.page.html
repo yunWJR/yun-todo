@@ -31,21 +31,16 @@
             <ion-label>类型</ion-label>
             <ion-select *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消" okText="确定"
                         (ionChange)="tagChange($event)">
-                <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{i}}">
+                <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{item.id}}">
                     {{item.name}}
                 </ion-select-option>
             </ion-select>
         </ion-item>
     </div>
-    <ion-fab-list side="top">
-        <ion-fab-button>Facebook</ion-fab-button>
-        <ion-fab-button>Twitter</ion-fab-button>
-        <ion-fab-button>Youtube</ion-fab-button>
-    </ion-fab-list>
+
 </ion-header>
 
 <ion-content>
-
 
     <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
         <ion-refresher-content
@@ -59,17 +54,17 @@
     <ion-list lines="none">
         <ion-item-group *ngFor="let item of list">
             <ion-item-divider color="primary">
-                <ion-label>{{timeStr(item.dateTime)}}</ion-label>
-                <ion-label color="light">{{item.theme.name}}</ion-label>
-                <ion-label color="light">[{{item.name}}]</ion-label>
+                <ion-label color="light">{{item.tag.name}}</ion-label>
             </ion-item-divider>
 
-            <ion-item *ngFor="let prop of item.propDataList">
-                <ion-label>{{prop.prop.name}}</ion-label>
-                <ion-label *ngIf="prop.hasData==false">-</ion-label>
+            <ion-item *ngIf="item.propStatisticsList.length===0">
+                <ion-label>无数据</ion-label>
+            </ion-item>
 
-                <ion-label
-                        *ngIf="prop.hasData==true">{{propValue(prop)}}</ion-label>
+            <ion-item *ngFor="let st of item.propStatisticsList">
+                <ion-label>{{st.prop.name}}</ion-label>
+                <ion-label>次数：{{st.count}}</ion-label>
+                <ion-label>总数：{{st.dataValue}} {{st.dataUnit}}</ion-label>
             </ion-item>
         </ion-item-group>
     </ion-list>

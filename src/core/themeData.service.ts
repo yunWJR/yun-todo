@@ -41,6 +41,12 @@ export class ThemeTagPropData {
     dataTypeId: number;
 }
 
+export class TagStatisticsDto {
+    themeId: number;
+    date: string;
+    tagIds: number[] = [];
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -61,5 +67,9 @@ export class ThemeDataService {
 
     info(themeId: number, params) {
         return this.httpClient.get(`/v1/api/record/themeData/${themeId}`, {params});
+    }
+
+    tagStatistics(body: TagStatisticsDto) {
+        return this.httpClient.post(`/v1/api/record/themeData/tagStatistics`, body);
     }
 }

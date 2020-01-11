@@ -1,9 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {TagPropData, ThemeDataService, ThemeTagData} from '../../core/themeData.service';
-import {HttpParams} from '@angular/common/http';
+import {TagPropData, TagStatisticsDto, ThemeDataService} from '../../core/themeData.service';
 import {Theme, ThemeService} from '../../core/theme.service';
+import {ThemeTagStatistics} from '../../core/api-model';
 
 
 @Component({
@@ -22,7 +22,8 @@ export class Tab2Page {
 
     tagTheme: Theme;
 
-    list: ThemeTagData[] = [];
+    selTagIds: number[];
+    list: ThemeTagStatistics[] = [];
 
     constructor(
         public navCtrl: NavController,
@@ -57,7 +58,6 @@ export class Tab2Page {
     }
 
     ionViewDidEnter() {
-        this.getList();
         this.getThemeList();
     }
 
@@ -67,22 +67,32 @@ export class Tab2Page {
     }
 
     getList() {
-        let params = new HttpParams();
-        if (this.selTheme) {
-            const tmId = this.selTheme.id.toString();
-            params = params.append('themeId', tmId);
+        if (!this.tagTheme || !this.selDateTime || !this.selTagIds || this.selTagIds.length < 1) {
+            return;
         }
 
+        const dto = new TagStatisticsDto();
+        dto.themeId = this.tagTheme.id;
+        dto.tagIds = this.selTagIds;
         if (this.selDateTime) {
-            const dateTime = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
-            params = params.append('date', dateTime);
+            dto.date = this.setDate();
         }
 
-        this.themeDataRqt.list(params).subscribe((res: ThemeTagData[]) => {
+        this.themeDataRqt.tagStatistics(dto).subscribe((res: ThemeTagStatistics[]) => {
             this.list = res;
 
             this.ionRefresher.complete().then(r => console.log(r));
         });
+    }
+
+    setDate(): string {
+        if (this.selDateTime) {
+            const dateTime = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
+
+            return dateTime;
+        }
+
+        return null;
     }
 
     dateFormat(fmt, date) {
@@ -238,6 +248,8 @@ export class Tab2Page {
             });
         }
 
+        this.selTagIds = null; // todo 重置控件
+
         this.getList();
     }
 
@@ -253,6 +265,13 @@ export class Tab2Page {
     }
 
     tagChange(event) {
-        console.log(event);
+        console.log(event.target.value);
+
+        this.selTagIds = [];
+        for (const tId of event.target.value) {
+            this.selTagIds.push(tId);
+        }
+
+        this.getList();
     }
 }
