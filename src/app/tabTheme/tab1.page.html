@@ -20,6 +20,9 @@
             <!--            <ion-label>主题</ion-label>-->
             <ion-select style="width: 100%; display: contents" interface="alert" cancelText="取消" okText="确定"
                         (ionChange)="themeChange($event)">
+                <ion-select-option value="-1" selected>
+                    全部
+                </ion-select-option>
                 <ion-select-option *ngFor="let item of themeList;let i = index" value="{{i}}">
                     {{item.name}}
                 </ion-select-option>

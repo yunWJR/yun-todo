@@ -34,11 +34,11 @@ export class Tab1Page {
         public alertController: AlertController,
     ) {
 
-        this.themeList = [this.allTheme()];
-        this.selTheme = this.themeList[0];
+        this.themeList = [];
+        this.selTheme = null;
 
-        this.getList();
-        this.getThemeList();
+        // this.getList();
+        // this.getThemeList();
 
         this.dateTimePickerOptions = {
             buttons: [{
@@ -68,7 +68,7 @@ export class Tab1Page {
 
     getList() {
         let params = new HttpParams();
-        if (this.selTheme.id) {
+        if (this.selTheme) {
             const tmId = this.selTheme.id.toString();
             params = params.append('themeId', tmId);
         }
@@ -108,7 +108,7 @@ export class Tab1Page {
 
     getThemeList() {
         this.themeRqt.list().subscribe((res: Theme[]) => {
-            this.themeList = [this.allTheme()];
+            this.themeList = [];
 
             let hasTheme = false;
             for (const re of res) {
@@ -121,7 +121,7 @@ export class Tab1Page {
             }
 
             if (hasTheme === false) {
-                this.selTheme = this.themeList[0];
+                this.selTheme = null;
             }
         });
     }
@@ -142,8 +142,8 @@ export class Tab1Page {
     }
 
     addTag() {
-        if (!this.selTheme.id) {
-            this.presentAlert('请先选择主题！');
+        if (!this.selTheme) {
+            this.presentAlert('请先选择一个主题！');
             return;
         }
 
@@ -245,8 +245,6 @@ export class Tab1Page {
     }
 
     dateTimeChange(event) {
-        console.log(this.selDateTime);
-
         this.getList();
     }
 
@@ -259,7 +257,11 @@ export class Tab1Page {
     }
 
     themeChange(event) {
-        this.selTheme = this.themeList[event.target.value];
+        if (event.target.value === -1) {
+            this.selTheme = null;
+        } else {
+            this.selTheme = this.themeList[event.target.value];
+        }
 
         this.getList();
     }
