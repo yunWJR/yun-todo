@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {TagPropData, TagStatisticsDto, ThemeDataService} from '../../core/themeData.service';
+import {TagStatisticsDto, ThemeDataService} from '../../core/themeData.service';
 import {Theme, ThemeService} from '../../core/theme.service';
 import {ThemeTagStatistics} from '../../core/api-model';
 
@@ -132,33 +132,24 @@ export class Tab2Page {
             if (hasTheme === false) {
                 this.selTheme = null;
             }
+
+            if (this.themeList.length === 1) {
+                this.selTheme = this.themeList[0];
+            }
+
+            this.getTagTheme();
         });
     }
 
-    timeStr(dateTime: number): string {
-        const d = new Date(dateTime / 1000);
-        return d.toTimeString().substring(0, 8);
-    }
+    getTagTheme() {
+        console.log(this.selTheme);
 
-    propValue(propData: TagPropData): string {
-        let vl = propData.propData.orgValue;
-
-        if (propData.prop.dataUnit) {
-            vl = vl + ':' + propData.prop.dataUnit;
-        }
-
-        return vl;
-    }
-
-    addTag() {
         if (!this.selTheme) {
             this.presentAlert('请先选择一个主题！');
             return;
         }
 
         if (this.tagTheme != null && this.tagTheme.id === this.selTheme.id) {
-            this.presentActionSheet(this.tagTheme);
-
             return;
         }
 
@@ -170,66 +161,7 @@ export class Tab2Page {
 
         this.themeRqt.info(themeId, null).subscribe((res: Theme) => {
             this.tagTheme = res;
-
-            // 选择填写的信息
-            this.presentActionSheet(this.tagTheme);
         });
-    }
-
-    addTagData(tagId: number) {
-        let tag = null;
-
-        for (const tagIt of this.tagTheme.tagList) {
-            if (tagIt.id === tagId) {
-                tag = tagIt;
-                break;
-            }
-        }
-
-        if (tag == null) {
-            return;
-        }
-
-        const rst = this.presentPopover(null, tag);
-    }
-
-    async presentPopover(ev: any, tag: any) {
-
-    }
-
-    // 选择
-    async presentActionSheet(res: Theme) {
-        const buttons = [];
-        for (const tag of res.tagList) {
-            if (tag.propList.length === 0) {
-                continue;
-            }
-            const bt = {
-                text: tag.name,
-                role: '',
-                icon: '',
-                handler: () => {
-                    this.addTagData(tag.id);
-                }
-            };
-            buttons.push(bt);
-        }
-
-        // cancel
-        buttons.push({
-            text: '取 消',
-            // icon: 'close',
-            role: 'cancel',
-            handler: () => {
-                console.log('Cancel clicked');
-            }
-        });
-
-        const actionSheet = await this.actionSheetController.create({
-            header: '选择记录类型',
-            buttons: buttons,
-        });
-        await actionSheet.present();
     }
 
     dateTimeChange(event) {

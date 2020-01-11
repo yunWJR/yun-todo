@@ -3,9 +3,14 @@
     <ion-label color="primary"> {{tag.name}}</ion-label>
 </p>
 
-<ion-content *ngFor="let prop of tag.propList">
+<ion-item>
+    <ion-label>发生时间</ion-label>
+    <ion-datetime displayFormat="HH:mm:ss" [(ngModel)]="selTime"></ion-datetime>
+</ion-item>
+
+<ion-content *ngFor="let prop of tag.propList;let i = index">
     <ion-item>
-        <ion-label>{{propTitleStr(prop)}}</ion-label>
+        <ion-label>{{propTitleStr(i, prop)}}</ion-label>
         <!--        <ion-label>类型：{{dataTypeStr(prop.dataType)}}</ion-label>-->
         <!--        <ion-label *ngIf="prop.dataUnit.length>0">单位:{{prop.dataUnit}}</ion-label>-->
     </ion-item>

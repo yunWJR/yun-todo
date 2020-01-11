@@ -123,6 +123,10 @@ export class Tab1Page {
             if (hasTheme === false) {
                 this.selTheme = null;
             }
+
+            if (this.themeList.length === 1) {
+                this.selTheme = this.themeList[0];
+            }
         });
     }
 
@@ -275,5 +279,11 @@ export class Tab1Page {
         });
 
         await alert.present();
+    }
+
+    showAllTheme(): boolean {
+        const all = this.themeList == null || this.themeList.length > 1;
+
+        console.log(all);
     }
 }
