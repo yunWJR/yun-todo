@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {TagPropData, ThemeDataService, ThemeTagData} from '../../core/themeData.service';
@@ -11,7 +11,7 @@ import {CreateTagComponent} from './create-tag/create-tag.component';
     templateUrl: 'tab1.page.html',
     styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
     dateTimePickerOptions: any;
@@ -37,9 +37,6 @@ export class Tab1Page {
         this.themeList = [];
         this.selTheme = null;
 
-        this.getList();
-        this.getThemeList();
-
         this.dateTimePickerOptions = {
             buttons: [{
                 text: 'Save',
@@ -56,6 +53,9 @@ export class Tab1Page {
         };
     }
 
+    ngOnInit() {
+    }
+
     ionViewDidEnter() {
         this.getList();
         this.getThemeList();
@@ -66,7 +66,7 @@ export class Tab1Page {
         this.getThemeList();
     }
 
-    cmoRefresh() {
+    cmpRefresh() {
         if (this.ionRefresher) {
             this.ionRefresher.complete().then(r => console.log(r));
         }
@@ -80,7 +80,6 @@ export class Tab1Page {
         }
 
         if (this.selDateTime) {
-
             const dateTime = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
             params = params.append('date', dateTime);
         }
@@ -88,7 +87,7 @@ export class Tab1Page {
         this.themeDataRqt.list(params).subscribe((res: ThemeTagData[]) => {
             this.list = res;
 
-            this.cmoRefresh();
+            this.cmpRefresh();
         });
     }
 

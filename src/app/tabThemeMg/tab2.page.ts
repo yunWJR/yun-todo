@@ -66,7 +66,7 @@ export class Tab2Page {
         this.getThemeList();
     }
 
-    cmoRefresh() {
+    cmpRefresh() {
         if (this.ionRefresher) {
             this.ionRefresher.complete().then(r => console.log(r));
         }
@@ -74,7 +74,7 @@ export class Tab2Page {
 
     getList() {
         if (!this.tagTheme || !this.selDateTime || !this.selTagIds || this.selTagIds.length < 1) {
-            this.cmoRefresh();
+            this.cmpRefresh();
             return;
         }
 
@@ -88,7 +88,7 @@ export class Tab2Page {
         this.themeDataRqt.tagStatistics(dto).subscribe((res: ThemeTagStatistics[]) => {
             this.list = res;
 
-            this.cmoRefresh();
+            this.cmpRefresh();
         });
     }
 

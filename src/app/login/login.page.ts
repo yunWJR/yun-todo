@@ -42,6 +42,6 @@ export class LoginPage implements OnInit {
     }
 
     register() {
-        this.navCtrl.navigateRoot('/login/register');
+        this.navCtrl.navigateForward('/login/register');
     }
 }
