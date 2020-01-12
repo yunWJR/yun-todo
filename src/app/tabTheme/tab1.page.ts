@@ -195,14 +195,14 @@ export class Tab1Page {
     }
 
     async presentPopover(ev: any, tag: any) {
-        const dateTime = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
+        const selDate = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
         const popover = await this.popoverController.create({
             component: CreateTagComponent,
             event: ev,
             translucent: true,
             componentProps: {
                 tag: tag,
-                date: dateTime,
+                selDate: selDate,
             },
             cssClass: 'create-tag',
         });

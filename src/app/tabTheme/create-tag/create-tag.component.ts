@@ -12,7 +12,7 @@ export class CreateTagComponent implements OnInit {
 
     @Input() tag: ThemeTag;
 
-    @Input() date: string;
+    @Input() selDate: string;
 
     selTime: string;
 
@@ -67,9 +67,16 @@ export class CreateTagComponent implements OnInit {
         const dto = new ThemeTagDataDto();
         dto.tagId = this.tag.id;
 
-        const date = this.date + ' ' + this.selTime;
+        const date = this.selDate + ' ' + this.selTime;
         const dd = new Date(date);
-        dto.dateTime = dd.getTime();
+        // dto.dateTime = dd.getTime();
+
+        console.log(this.selDate)
+        console.log(this.selTime)
+        console.log(date)
+
+        dto.date = this.selDate;
+        dto.time = this.selTime;
 
         dto.propList = [];
 
@@ -91,6 +98,8 @@ export class CreateTagComponent implements OnInit {
 
             return;
         }
+
+        console.log(dto)
 
         this.themeTagDataService.save(dto).subscribe((res: any) => {
             this.clearData();
