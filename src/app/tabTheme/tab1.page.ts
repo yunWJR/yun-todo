@@ -37,8 +37,8 @@ export class Tab1Page {
         this.themeList = [];
         this.selTheme = null;
 
-        // this.getList();
-        // this.getThemeList();
+        this.getList();
+        this.getThemeList();
 
         this.dateTimePickerOptions = {
             buttons: [{
@@ -66,6 +66,12 @@ export class Tab1Page {
         this.getThemeList();
     }
 
+    cmoRefresh() {
+        if (this.ionRefresher) {
+            this.ionRefresher.complete().then(r => console.log(r));
+        }
+    }
+
     getList() {
         let params = new HttpParams();
         if (this.selTheme) {
@@ -82,7 +88,7 @@ export class Tab1Page {
         this.themeDataRqt.list(params).subscribe((res: ThemeTagData[]) => {
             this.list = res;
 
-            this.ionRefresher.complete().then(r => console.log(r));
+            this.cmoRefresh();
         });
     }
 
@@ -263,8 +269,10 @@ export class Tab1Page {
     }
 
     themeChange(event) {
-        if (event.target.value === -1) {
-            this.selTheme = null;
+        if (event.target.value === '-1') {
+            if (this.themeList.length !== 1) {
+                this.selTheme = null;
+            }
         } else {
             this.selTheme = this.themeList[event.target.value];
         }

@@ -38,8 +38,8 @@ export class Tab2Page {
         this.themeList = [];
         this.selTheme = null;
 
-        // this.getList();
-        // this.getThemeList();
+        this.getList();
+        this.getThemeList();
 
         this.dateTimePickerOptions = {
             buttons: [{
@@ -66,8 +66,15 @@ export class Tab2Page {
         this.getThemeList();
     }
 
+    cmoRefresh() {
+        if (this.ionRefresher) {
+            this.ionRefresher.complete().then(r => console.log(r));
+        }
+    }
+
     getList() {
         if (!this.tagTheme || !this.selDateTime || !this.selTagIds || this.selTagIds.length < 1) {
+            this.cmoRefresh();
             return;
         }
 
@@ -81,7 +88,7 @@ export class Tab2Page {
         this.themeDataRqt.tagStatistics(dto).subscribe((res: ThemeTagStatistics[]) => {
             this.list = res;
 
-            this.ionRefresher.complete().then(r => console.log(r));
+            this.cmoRefresh();
         });
     }
 
@@ -142,8 +149,6 @@ export class Tab2Page {
     }
 
     getTagTheme() {
-        console.log(this.selTheme);
-
         if (!this.selTheme) {
             this.presentAlert('请先选择一个主题！');
             return;
@@ -169,9 +174,11 @@ export class Tab2Page {
     }
 
     themeChange(event) {
-        if (event.target.value === -1) {
-            this.selTheme = null;
-            this.tagTheme = null;
+        if (event.target.value === '-1') {
+            if (this.themeList.length !== 1) {
+                this.selTheme = null;
+                this.tagTheme = null;
+            }
         } else {
             this.selTheme = this.themeList[event.target.value];
 
@@ -182,7 +189,7 @@ export class Tab2Page {
 
         this.selTagIds = null; // todo 重置控件
 
-        this.getList();
+        this.getTagTheme();
     }
 
     async presentAlert(msg: string) {

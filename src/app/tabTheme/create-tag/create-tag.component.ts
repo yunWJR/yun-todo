@@ -12,16 +12,15 @@ export class CreateTagComponent implements OnInit {
 
     @Input() tag: ThemeTag;
 
-    selTime: string;
+    @Input() date: string;
 
-    selDate: string;
+    selTime: string;
 
     constructor(
         public popoverCtrl: PopoverController,
         public themeTagDataService: ThemeTagDataService,
     ) {
         this.selTime = this.dateFormat('HH:mm:ss', new Date());
-        this.selDate = this.dateFormat('yyyy-MM-dd', new Date());
     }
 
     ngOnInit() {
@@ -68,7 +67,7 @@ export class CreateTagComponent implements OnInit {
         const dto = new ThemeTagDataDto();
         dto.tagId = this.tag.id;
 
-        const date = this.selDate + ' ' + this.selTime;
+        const date = this.date + ' ' + this.selTime;
         const dd = new Date(date);
         dto.dateTime = dd.getTime();
 
