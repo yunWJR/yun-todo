@@ -1,9 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {TagStatisticsDto, ThemeDataService} from '../../core/themeData.service';
-import {Theme, ThemeService} from '../../core/theme.service';
-import {ThemeTagStatistics} from '../../core/api-model';
+import {TagStatisticsDto, ThemeDataService} from '../../rqt-service/themeData.service';
+import {Theme, ThemeService} from '../../rqt-service/theme.service';
+import {ThemeTagStatistics} from '../../base/api-model';
 
 
 @Component({

@@ -1,5 +1,5 @@
-import {ThemeTag, ThemeTagProp} from './theme.service';
-import {ThemeTagData} from './themeData.service';
+import {ThemeTag, ThemeTagProp} from '../rqt-service/theme.service';
+import {ThemeTagData} from '../rqt-service/themeData.service';
 
 export class ThemeTagStatistics {
     tag: ThemeTag;

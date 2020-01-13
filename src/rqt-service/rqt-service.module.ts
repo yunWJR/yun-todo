@@ -1,7 +1,7 @@
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {CommonService} from './common.service';
-import {HttpInterceptorsService} from './interceptors/http-interceptors.service';
+import {HttpInterceptorsService} from '../base/http-interceptors.service';
 
 @NgModule({
     providers: [
@@ -9,5 +9,5 @@ import {HttpInterceptorsService} from './interceptors/http-interceptors.service'
         CommonService,
     ]
 })
-export class CoreModule {
+export class RqtServiceModule {
 }

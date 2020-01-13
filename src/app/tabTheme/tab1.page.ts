@@ -1,17 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {TagPropData, ThemeDataService, ThemeTagData} from '../../core/themeData.service';
+import {TagPropData, ThemeDataService, ThemeTagData} from '../../rqt-service/themeData.service';
 import {HttpParams} from '@angular/common/http';
-import {Theme, ThemeService} from '../../core/theme.service';
+import {Theme, ThemeService} from '../../rqt-service/theme.service';
 import {CreateTagComponent} from './create-tag/create-tag.component';
+import {BasePage} from '../../base/base.page';
+import {DateUtils} from '../../utils/date.utils';
 
 @Component({
     selector: 'app-tab1',
     templateUrl: 'tab1.page.html',
     styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit {
+export class Tab1Page extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
     dateTimePickerOptions: any;
@@ -26,13 +28,15 @@ export class Tab1Page implements OnInit {
 
     constructor(
         public navCtrl: NavController,
-        private router: Router,
+        public router: Router,
         public themeDataRqt: ThemeDataService,
         public themeRqt: ThemeService,
         public actionSheetController: ActionSheetController,
         public popoverController: PopoverController,
         public alertController: AlertController,
+        public dateUtils: DateUtils,
     ) {
+        super();
 
         this.themeList = [];
         this.selTheme = null;
@@ -57,13 +61,16 @@ export class Tab1Page implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getList();
-        this.getThemeList();
+        this.getThemeListRqt();
+    }
+
+    // 加载完成后，停止刷新动画
+    loadDataCmpHandle() {
+        this.cmpRefresh();
     }
 
     doRefresh() {
-        this.getList();
-        this.getThemeList();
+        this.getThemeListRqt();
     }
 
     cmpRefresh() {
@@ -72,46 +79,11 @@ export class Tab1Page implements OnInit {
         }
     }
 
-    getList() {
-        let params = new HttpParams();
-        if (this.selTheme) {
-            const tmId = this.selTheme.id.toString();
-            params = params.append('themeId', tmId);
-        }
+    // region rqt
 
-        if (this.selDateTime) {
-            const dateTime = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
-            params = params.append('date', dateTime);
-        }
+    getThemeListRqt() {
+        this.loadDataStart();
 
-        this.themeDataRqt.list(params).subscribe((res: ThemeTagData[]) => {
-            this.list = res;
-
-            this.cmpRefresh();
-        });
-    }
-
-    dateFormat(fmt, date) {
-        let ret;
-        const opt = {
-            'y+': date.getFullYear().toString(),        // 年
-            'M+': (date.getMonth() + 1).toString(),     // 月
-            'd+': date.getDate().toString(),            // 日
-            'H+': date.getHours().toString(),           // 时
-            'm+': date.getMinutes().toString(),         // 分
-            'S+': date.getSeconds().toString()          // 秒
-            // 有其他格式化字符需求可以继续添加，必须转化成字符串
-        };
-        for (const k in opt) {
-            ret = new RegExp('(' + k + ')').exec(fmt);
-            if (ret) {
-                fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')));
-            }
-        }
-        return fmt;
-    }
-
-    getThemeList() {
         this.themeRqt.list().subscribe((res: Theme[]) => {
             this.themeList = [];
 
@@ -132,32 +104,57 @@ export class Tab1Page implements OnInit {
             if (this.themeList.length === 1) {
                 this.selTheme = this.themeList[0];
             }
+
+            this.getListRqt();
+        }, (error: any) => {
+            // this.cmpRefresh();
+            this.handleRqtError(error);
         });
     }
 
-    timeStr(dateTime: number): string {
-        const d = new Date(dateTime / 1000);
-        return d.toTimeString().substring(0, 8);
+    getListRqt() {
+        this.loadDataStart();
+
+        let params = new HttpParams();
+        if (this.selTheme) {
+            const tmId = this.selTheme.id.toString();
+            params = params.append('themeId', tmId);
+        }
+
+        if (this.selDateTime) {
+            const dateTime = this.dateUtils.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
+            params = params.append('date', dateTime);
+        }
+
+        this.themeDataRqt.list(params).subscribe((res: ThemeTagData[]) => {
+            this.list = res;
+
+            this.loadDataCmp();
+        }, (error: any) => {
+            this.handleRqtError(error);
+        });
     }
 
-    propValue(propData: TagPropData): string {
+    // endregion
+
+    propText(propData: TagPropData): string {
         let vl = propData.propData.orgValue;
 
         if (propData.prop.dataUnit) {
-            vl = vl + ':' + propData.prop.dataUnit;
+            vl = vl + ' ' + propData.prop.dataUnit;
         }
 
         return vl;
     }
 
-    addTag() {
+    addTagOn() {
         if (!this.selTheme) {
-            this.presentAlert('请先选择一个主题！');
+            this.presentAlertConfirm(null, '请先选择一个主题！');
             return;
         }
 
         if (this.tagTheme != null && this.tagTheme.id === this.selTheme.id) {
-            this.presentActionSheet(this.tagTheme);
+            this.presentTagActionSheet(this.tagTheme);
 
             return;
         }
@@ -171,57 +168,12 @@ export class Tab1Page implements OnInit {
         this.themeRqt.info(themeId, null).subscribe((res: Theme) => {
             this.tagTheme = res;
 
-            // 选择填写的信息
-            this.presentActionSheet(this.tagTheme);
+            this.presentTagActionSheet(this.tagTheme);
         });
-    }
-
-    addTagData(tagId: number) {
-        let tag = null;
-
-        for (const tagIt of this.tagTheme.tagList) {
-            if (tagIt.id === tagId) {
-                tag = tagIt;
-                break;
-            }
-        }
-
-        if (tag == null) {
-            return;
-        }
-
-        const rst = this.presentPopover(null, tag);
-    }
-
-    async presentPopover(ev: any, tag: any) {
-        const selDate = this.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
-        const popover = await this.popoverController.create({
-            component: CreateTagComponent,
-            event: ev,
-            translucent: true,
-            componentProps: {
-                tag: tag,
-                selDate: selDate,
-            },
-            cssClass: 'create-tag',
-        });
-
-        // 打开
-        await popover.present();
-
-        // 返回结果
-        const {data} = await popover.onWillDismiss();
-        console.log(data);
-        if (data != null) {
-            // 重新加载数据
-            if (data.save === true) {
-                this.getList();
-            }
-        }
     }
 
     // 选择
-    async presentActionSheet(res: Theme) {
+    async presentTagActionSheet(res: Theme) {
         const buttons = [];
         for (const tag of res.tagList) {
             if (tag.propList.length === 0) {
@@ -232,7 +184,7 @@ export class Tab1Page implements OnInit {
                 role: '',
                 icon: '',
                 handler: () => {
-                    this.addTagData(tag.id);
+                    this.gotoAddTag(tag.id);
                 }
             };
             buttons.push(bt);
@@ -255,16 +207,52 @@ export class Tab1Page implements OnInit {
         await actionSheet.present();
     }
 
-    dateTimeChange(event) {
-        this.getList();
+    gotoAddTag(tagId: number) {
+        let tag = null;
+
+        for (const tagIt of this.tagTheme.tagList) {
+            if (tagIt.id === tagId) {
+                tag = tagIt;
+                break;
+            }
+        }
+
+        if (tag == null) {
+            return;
+        }
+
+        const rst = this.presentAddTagPopover(null, tag);
     }
 
-    allTheme(): Theme {
-        const allTm = new Theme();
-        allTm.name = '全部';
-        allTm.id = null;
+    async presentAddTagPopover(ev: any, tag: any) {
+        const selDate = this.dateUtils.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
+        const popover = await this.popoverController.create({
+            component: CreateTagComponent,
+            event: ev,
+            translucent: true,
+            componentProps: {
+                tag: tag,
+                selDate: selDate,
+            },
+            cssClass: 'create-tag',
+        });
 
-        return allTm;
+        // 打开
+        await popover.present();
+
+        // 返回结果
+        const {data} = await popover.onWillDismiss();
+        console.log(data);
+        if (data != null) {
+            // 重新加载数据
+            if (data.save === true) {
+                this.getListRqt();
+            }
+        }
+    }
+
+    dateTimeChange(event) {
+        this.getListRqt();
     }
 
     themeChange(event) {
@@ -276,25 +264,6 @@ export class Tab1Page implements OnInit {
             this.selTheme = this.themeList[event.target.value];
         }
 
-        this.getList();
-    }
-
-    async presentAlert(msg: string) {
-        const alert = await this.alertController.create({
-            header: '提醒',
-            // subHeader: 'Subtitle',
-            message: msg,
-            buttons: ['确定']
-        });
-
-        await alert.present();
-    }
-
-    showAllTheme(): boolean {
-        const all = this.themeList == null || this.themeList.length > 1;
-
-        console.log(all);
-
-        return all;
+        this.getListRqt();
     }
 }

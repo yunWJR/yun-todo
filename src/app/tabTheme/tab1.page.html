@@ -47,7 +47,7 @@
     <ion-list lines="none">
         <ion-item-group *ngFor="let item of list">
             <ion-item-divider color="primary">
-                <ion-label>{{timeStr(item.dateTime)}}</ion-label>
+                <ion-label>{{this.dateUtils.timeStr(item.dateTime)}}</ion-label>
                 <ion-label color="light">{{item.theme.name}}</ion-label>
                 <ion-label color="light">[{{item.name}}]</ion-label>
             </ion-item-divider>
@@ -57,14 +57,14 @@
                 <ion-label *ngIf="prop.hasData==false">-</ion-label>
 
                 <ion-label
-                        *ngIf="prop.hasData==true">{{propValue(prop)}}</ion-label>
+                        *ngIf="prop.hasData==true">{{propText(prop)}}</ion-label>
             </ion-item>
         </ion-item-group>
     </ion-list>
 
     <!-- Fixed Floating Action Button that does not scroll with the content -->
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="warning" (click)="addTag()">
+        <ion-fab-button color="warning" (click)="addTagOn()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
     </ion-fab>

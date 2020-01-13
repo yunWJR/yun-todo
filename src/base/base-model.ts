@@ -1,3 +1,9 @@
+export class BaseModel<T> {
+    code: number;
+    errorMsg: string;
+    data: T;
+}
+
 export class PageList<T> {
     pageIndex = 1;
     pageSize = 6;

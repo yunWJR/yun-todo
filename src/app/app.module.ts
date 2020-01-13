@@ -9,7 +9,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import {CoreModule} from '../core/core.module';
+import {RqtServiceModule} from '../rqt-service/rqt-service.module';
 import {CreateTagComponent} from './tabTheme/create-tag/create-tag.component';
 import {FormsModule} from '@angular/forms';
 
@@ -21,7 +21,7 @@ import {FormsModule} from '@angular/forms';
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
-        CoreModule,
+        RqtServiceModule,
         FormsModule,
     ],
     providers: [

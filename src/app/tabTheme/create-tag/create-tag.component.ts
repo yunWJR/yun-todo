@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ThemeTag, ThemeTagProp} from '../../../core/theme.service';
+import {ThemeTag, ThemeTagProp} from '../../../rqt-service/theme.service';
 import {PopoverController} from '@ionic/angular';
-import {TagPropDataDto, ThemeTagDataDto, ThemeTagDataService} from '../../../core/themeTagData.service';
+import {TagPropDataDto, ThemeTagDataDto, ThemeTagDataService} from '../../../rqt-service/themeTagData.service';
 
 @Component({
     selector: 'app-create-tag',
@@ -71,9 +71,9 @@ export class CreateTagComponent implements OnInit {
         const dd = new Date(date);
         // dto.dateTime = dd.getTime();
 
-        console.log(this.selDate)
-        console.log(this.selTime)
-        console.log(date)
+        console.log(this.selDate);
+        console.log(this.selTime);
+        console.log(date);
 
         dto.date = this.selDate;
         dto.time = this.selTime;
@@ -99,7 +99,7 @@ export class CreateTagComponent implements OnInit {
             return;
         }
 
-        console.log(dto)
+        console.log(dto);
 
         this.themeTagDataService.save(dto).subscribe((res: any) => {
             this.clearData();
