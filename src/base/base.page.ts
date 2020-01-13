@@ -109,7 +109,10 @@ export class BasePage {
         await alert.present();
     }
 
-    async presentAlertHandle(header: string, msg: string, okHandler: any) {
+    async presentAlertHandle(header: string, msg: string,
+                             okHandler: (value: any) => boolean | void | {
+                                 [key: string]: any;
+                             }) {
         const alert = await this.alertController.create({
             header: header === null ? '提示' : header,
             // message: '登录已过期，请重新登录 <strong>!!!</strong>',
@@ -125,6 +128,34 @@ export class BasePage {
         await alert.present();
     }
 
+    async presentAlertYesNo(header: string,
+                            msg: string,
+                            yesHandler: (value: any) => boolean | void | {
+                                [key: string]: any;
+                            },
+                            noHandler: (value: any) => boolean | void | {
+                                [key: string]: any;
+                            }) {
+        const alert = await this.alertController.create({
+            header: header === null ? '提示' : header,
+            // message: '登录已过期，请重新登录 <strong>!!!</strong>',
+            message: msg,
+            buttons: [
+                {
+                    text: '是',
+                    handler: yesHandler,
+                },
+                {
+                    text: '否',
+                    role: 'cancel',
+                    handler: noHandler,
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
     // endregion
 
     handleRqtError(error: any) {
@@ -132,7 +163,7 @@ export class BasePage {
 
         this.loadDataCmp();
 
-        console.log(error)
+        console.log(error);
 
         if (error instanceof BaseModel) {
             // 登录已过期

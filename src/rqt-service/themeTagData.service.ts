@@ -29,4 +29,8 @@ export class ThemeTagDataService {
     save(body) {
         return this.httpClient.post(`/v1/api/record/themeTagData`, body);
     }
+
+    delete(themeId: number) {
+        return this.httpClient.delete(`/v1/api/record/themeTagData/${themeId}`);
+    }
 }

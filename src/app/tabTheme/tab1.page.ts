@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActionSheetController, AlertController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
+import {ActionSheetController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {TagPropData, ThemeDataService, ThemeTagData} from '../../rqt-service/themeData.service';
 import {HttpParams} from '@angular/common/http';
@@ -7,6 +7,7 @@ import {Theme, ThemeService} from '../../rqt-service/theme.service';
 import {CreateTagComponent} from './create-tag/create-tag.component';
 import {BasePage} from '../../base/base.page';
 import {DateUtils} from '../../utils/date.utils';
+import {ThemeTagDataService} from '../../rqt-service/themeTagData.service';
 
 @Component({
     selector: 'app-tab1',
@@ -33,7 +34,7 @@ export class Tab1Page extends BasePage implements OnInit {
         public themeRqt: ThemeService,
         public actionSheetController: ActionSheetController,
         public popoverController: PopoverController,
-        public alertController: AlertController,
+        public themeTagDataRqt: ThemeTagDataService,
         public dateUtils: DateUtils,
     ) {
         super(navCtrl);
@@ -134,6 +135,16 @@ export class Tab1Page extends BasePage implements OnInit {
         });
     }
 
+    deleteTagData(tagDataId: number) {
+        this.loadDataStart();
+
+        this.themeTagDataRqt.delete(tagDataId).subscribe((res: any) => {
+            this.getListRqt();
+        }, (error: any) => {
+            this.handleRqtError(error);
+        });
+    }
+
     // endregion
 
     propText(propData: TagPropData): string {
@@ -169,6 +180,17 @@ export class Tab1Page extends BasePage implements OnInit {
 
             this.presentTagActionSheet(this.tagTheme);
         });
+    }
+
+    deleteTagOn(item: ThemeTagData, node: any) {
+        node.close();
+
+        this.presentAlertYesNo('提示', '确认删除整个标签吗？',
+            (suc => {
+                this.deleteTagData(item.id);
+            }),
+            (cancel => {
+            }));
     }
 
     // 选择
@@ -265,4 +287,5 @@ export class Tab1Page extends BasePage implements OnInit {
 
         this.getListRqt();
     }
+
 }

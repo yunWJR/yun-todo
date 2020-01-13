@@ -44,7 +44,8 @@
         </ion-refresher-content>
     </ion-refresher>
 
-    <ion-list lines="none">
+
+    <ion-list lines="full">
         <ion-item-group *ngFor="let item of list">
             <ion-item-divider color="primary">
                 <ion-label>{{this.dateUtils.timeStr(item.dateTime)}}</ion-label>
@@ -52,14 +53,37 @@
                 <ion-label color="light">[{{item.name}}]</ion-label>
             </ion-item-divider>
 
-            <ion-item *ngFor="let prop of item.propDataList">
-                <ion-label>{{prop.prop.name}}</ion-label>
-                <ion-label *ngIf="prop.hasData==false">-</ion-label>
+            <ion-item-sliding #ionSlide *ngFor="let prop of item.propDataList">
+                <ion-item>
+                    <ion-label>{{prop.prop.name}}</ion-label>
+                    <ion-label *ngIf="prop.hasData==false">-</ion-label>
+                    <ion-label *ngIf="prop.hasData==true">{{propText(prop)}}</ion-label>
+                </ion-item>
+                <ion-item-options>
+                    <ion-item-option color="danger" (click)="deleteTagOn(item,ionSlide)">
+                        <ion-icon slot="end" name="close"></ion-icon>
+                        删除
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
 
-                <ion-label
-                        *ngIf="prop.hasData==true">{{propText(prop)}}</ion-label>
-            </ion-item>
         </ion-item-group>
+
+        <!--        <ion-item-group *ngFor="let item of list">-->
+        <!--            <ion-item-divider color="primary">-->
+        <!--                <ion-label>{{this.dateUtils.timeStr(item.dateTime)}}</ion-label>-->
+        <!--                <ion-label color="light">{{item.theme.name}}</ion-label>-->
+        <!--                <ion-label color="light">[{{item.name}}]</ion-label>-->
+        <!--            </ion-item-divider>-->
+
+        <!--            <ion-item *ngFor="let prop of item.propDataList">-->
+        <!--                <ion-label>{{prop.prop.name}}</ion-label>-->
+        <!--                <ion-label *ngIf="prop.hasData==false">-</ion-label>-->
+
+        <!--                <ion-label-->
+        <!--                        *ngIf="prop.hasData==true">{{propText(prop)}}</ion-label>-->
+        <!--            </ion-item>-->
+        <!--        </ion-item-group>-->
     </ion-list>
 
     <!-- Fixed Floating Action Button that does not scroll with the content -->

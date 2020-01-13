@@ -11,11 +11,6 @@ export class ThemeTagData {
     date: string;
     theme: Theme;
     propDataList: TagPropData[];
-
-    time(): string {
-        const d = new Date(this.dateTime / 1000);
-        return d.toTimeString();
-    }
 }
 
 export class TagPropData {

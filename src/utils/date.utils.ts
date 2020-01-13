@@ -15,6 +15,7 @@ export class DateUtils {
             's+': date.getSeconds().toString()          // 秒
             // 有其他格式化字符需求可以继续添加，必须转化成字符串
         };
+
         for (const k in opt) {
             ret = new RegExp('(' + k + ')').exec(fmt);
             if (ret) {
@@ -25,7 +26,7 @@ export class DateUtils {
     }
 
     timeStr(dateTime: number): string {
-        const d = new Date(dateTime / 1000);
+        const d = new Date(dateTime);
         return d.toTimeString().substring(0, 8);
     }
 }
