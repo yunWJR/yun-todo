@@ -115,10 +115,10 @@ export class Tab2Page extends BasePage {
             return;
         }
 
-        if (this.tagTheme != null && this.tagTheme.id === this.selTheme.id) {
-            this.loadDataCmp();
-            return;
-        }
+        // if (this.tagTheme != null && this.tagTheme.id === this.selTheme.id) {
+        //     this.loadDataCmp();
+        //     return;
+        // }
 
         this.themeRqt.info(this.selTheme.id, null).subscribe((res: Theme) => {
             this.tagTheme = res;
