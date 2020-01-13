@@ -36,7 +36,7 @@ export class Tab1Page extends BasePage implements OnInit {
         public alertController: AlertController,
         public dateUtils: DateUtils,
     ) {
-        super();
+        super(navCtrl);
 
         this.themeList = [];
         this.selTheme = null;
@@ -148,7 +148,7 @@ export class Tab1Page extends BasePage implements OnInit {
 
     addTagOn() {
         if (!this.selTheme) {
-            this.presentAlert('请先选择一个主题！');
+            this.presentCommonAlert('请先选择一个主题！');
             return;
         }
 

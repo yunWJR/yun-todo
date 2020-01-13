@@ -1,4 +1,4 @@
-import {AlertController, LoadingController} from '@ionic/angular';
+import {AlertController, LoadingController, NavController} from '@ionic/angular';
 import {BaseModel} from './base-model';
 
 // Page基础类
@@ -12,10 +12,13 @@ export class BasePage {
     public alertController: AlertController;
 
 
-    constructor() {
+    constructor(
+        public navController: NavController,
+    ) {
         this.loadingController = new LoadingController();
         this.alertController = new AlertController();
     }
+
 
     // region load
 
@@ -45,7 +48,7 @@ export class BasePage {
     }
 
     // 显示加载框
-    async presentLoading(message: string) {
+    async presentLoading(msg: string) {
         // 已经显示，不处理
         if (this.loadViewOn === true) {
             return;
@@ -54,7 +57,7 @@ export class BasePage {
         this.loadViewOn = true;
 
         this.loadView = await this.loadingController.create({
-            message: message,
+            message: msg,
             duration: 600000, // 600秒
             spinner: 'bubbles',
             translucent: true,
@@ -81,15 +84,15 @@ export class BasePage {
 
     // region alert
 
-    async presentAlert(msg: string) {
-        this.presentAlertConfirm('提示', msg);
+    async presentCommonAlert(msg: string) {
+        this.presentAlert('提示', msg);
     }
 
-    async presentErrAlert(msg: string) {
-        this.presentAlertConfirm(' 错误', msg);
+    async presentErrorAlert(msg: string) {
+        this.presentAlert(' 错误', msg);
     }
 
-    async presentAlertConfirm(header: string, msg: string) {
+    async presentAlert(header: string, msg: string) {
         const alert = await this.alertController.create({
             header: header === null ? '提示' : header,
             // message: '登录已过期，请重新登录 <strong>!!!</strong>',
@@ -106,28 +109,54 @@ export class BasePage {
         await alert.present();
     }
 
+    async presentAlertHandle(header: string, msg: string, okHandler: any) {
+        const alert = await this.alertController.create({
+            header: header === null ? '提示' : header,
+            // message: '登录已过期，请重新登录 <strong>!!!</strong>',
+            message: msg,
+            buttons: [
+                {
+                    text: '确定',
+                    handler: okHandler,
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
     // endregion
 
     handleRqtError(error: any) {
-        console.log('handleRqtError');
-        console.log(error);
-
         this.loadDataCmpHandle();
 
         this.loadDataCmp();
 
+        console.log(error)
+
         if (error instanceof BaseModel) {
+            // 登录已过期
+            if (error.code === 401) {
+
+                this.presentAlertHandle('提示', '登录已过期，请重新登录', (rst => {
+                    this.navController.navigateRoot('login');
+                }));
+
+                return;
+            }
+
+
             let msg = null;
             if (error.errorMsg) {
                 msg = error.errorMsg;
             } else {
                 msg = '未知错误';
             }
-            this.presentAlertConfirm('错误', msg);
+            this.presentAlert('错误', msg);
 
             return;
         }
 
-        this.presentAlertConfirm('错误', error);
+        this.presentAlert('错误', error);
     }
 }

@@ -34,7 +34,7 @@ export class Tab2Page extends BasePage {
         public themeRqt: ThemeService,
         public dateUtils: DateUtils,
     ) {
-        super();
+        super(navCtrl);
 
         this.themeList = [];
         this.selTheme = null;
@@ -111,7 +111,7 @@ export class Tab2Page extends BasePage {
 
         if (!this.selTheme || !this.selTheme.id) {
             this.loadDataCmp();
-            this.presentAlert('请先选择一个主题！');
+            this.presentCommonAlert('请先选择一个主题！');
             return;
         }
 

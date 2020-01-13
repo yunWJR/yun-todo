@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ThemeTag, ThemeTagProp} from '../../../rqt-service/theme.service';
-import {PopoverController} from '@ionic/angular';
+import {NavController, PopoverController} from '@ionic/angular';
 import {TagPropDataDto, ThemeTagDataDto, ThemeTagDataService} from '../../../rqt-service/themeTagData.service';
 import {BasePage} from '../../../base/base.page';
 import {DateUtils} from '../../../utils/date.utils';
@@ -19,11 +19,12 @@ export class CreateTagComponent extends BasePage implements OnInit {
     selTime: string;
 
     constructor(
+        public navCtrl: NavController,
         public popoverCtrl: PopoverController,
         public themeTagDataService: ThemeTagDataService,
         public dateUtils: DateUtils,
     ) {
-        super();
+        super(navCtrl);
         this.selTime = this.dateUtils.dateFormat('HH:mm:ss', new Date());
     }
 
@@ -70,7 +71,7 @@ export class CreateTagComponent extends BasePage implements OnInit {
         }
 
         if (hasItem === false) {
-            this.presentErrAlert('请至少填写一项内容');
+            this.presentErrorAlert('请至少填写一项内容');
             return;
         }
 

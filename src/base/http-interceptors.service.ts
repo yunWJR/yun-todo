@@ -63,8 +63,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
             catchError((err) => {
                 // 登录过期
                 if (err.status === 401) {
-                    this.presentAlertConfirm('登录已过期');
-                    return null;
+                    return throwError(this.createErrData(401, null, err));
                 }
 
                 if (err.status === 200) {

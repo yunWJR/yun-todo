@@ -16,12 +16,14 @@ export class LoginPage extends BasePage implements OnInit {
     public password: AbstractControl;
     public loginForm: FormGroup;
 
-    constructor(public navCtrl: NavController,
-                private router: Router,
-                public service: LoginService,
-                private formBuilder: FormBuilder,
-                private dataStorage: DataStorage) {
-        super();
+    constructor(
+        public navCtrl: NavController,
+        private router: Router,
+        public service: LoginService,
+        private formBuilder: FormBuilder,
+        private dataStorage: DataStorage,
+    ) {
+        super(navCtrl);
 
         this.loginForm = formBuilder.group({
             username: ['', Validators.compose([Validators.minLength(1), Validators.maxLength(16), Validators.required])],
