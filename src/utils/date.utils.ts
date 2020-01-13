@@ -12,7 +12,7 @@ export class DateUtils {
             'd+': date.getDate().toString(),            // 日
             'H+': date.getHours().toString(),           // 时
             'm+': date.getMinutes().toString(),         // 分
-            'S+': date.getSeconds().toString()          // 秒
+            's+': date.getSeconds().toString()          // 秒
             // 有其他格式化字符需求可以继续添加，必须转化成字符串
         };
         for (const k in opt) {

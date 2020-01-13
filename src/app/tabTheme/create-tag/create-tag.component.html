@@ -10,7 +10,7 @@
 
 <ion-content *ngFor="let prop of tag.propList;let i = index">
     <ion-item>
-        <ion-label>{{propTitleStr(i, prop)}}</ion-label>
+        <ion-label>{{propTitleText(i, prop)}}</ion-label>
         <!--        <ion-label>类型：{{dataTypeStr(prop.dataType)}}</ion-label>-->
         <!--        <ion-label *ngIf="prop.dataUnit.length>0">单位:{{prop.dataUnit}}</ion-label>-->
     </ion-item>
@@ -23,7 +23,7 @@
 </ion-content>
 
 <div style="text-align: center;margin-bottom: 20px;margin-top: 30px">
-    <ion-button style="width: 40%;padding-right: 4%" color="medium" (click)="cancel()">取消</ion-button>
-    <ion-button style="width: 40%;padding-left: 4%" color="primary" (click)="save()">保存</ion-button>
+    <ion-button style="width: 40%;padding-right: 4%" color="medium" (click)="cancelOn()">取消</ion-button>
+    <ion-button style="width: 40%;padding-left: 4%" color="primary" (click)="saveOn()">保存</ion-button>
 </div>
 

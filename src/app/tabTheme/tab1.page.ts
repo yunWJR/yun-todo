@@ -107,7 +107,6 @@ export class Tab1Page extends BasePage implements OnInit {
 
             this.getListRqt();
         }, (error: any) => {
-            // this.cmpRefresh();
             this.handleRqtError(error);
         });
     }
@@ -149,7 +148,7 @@ export class Tab1Page extends BasePage implements OnInit {
 
     addTagOn() {
         if (!this.selTheme) {
-            this.presentAlertConfirm(null, '请先选择一个主题！');
+            this.presentAlert('请先选择一个主题！');
             return;
         }
 

@@ -2,13 +2,15 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ThemeTag, ThemeTagProp} from '../../../rqt-service/theme.service';
 import {PopoverController} from '@ionic/angular';
 import {TagPropDataDto, ThemeTagDataDto, ThemeTagDataService} from '../../../rqt-service/themeTagData.service';
+import {BasePage} from '../../../base/base.page';
+import {DateUtils} from '../../../utils/date.utils';
 
 @Component({
     selector: 'app-create-tag',
     templateUrl: './create-tag.component.html',
     styleUrls: ['./create-tag.component.scss'],
 })
-export class CreateTagComponent implements OnInit {
+export class CreateTagComponent extends BasePage implements OnInit {
 
     @Input() tag: ThemeTag;
 
@@ -19,31 +21,13 @@ export class CreateTagComponent implements OnInit {
     constructor(
         public popoverCtrl: PopoverController,
         public themeTagDataService: ThemeTagDataService,
+        public dateUtils: DateUtils,
     ) {
-        this.selTime = this.dateFormat('HH:mm:ss', new Date());
+        super();
+        this.selTime = this.dateUtils.dateFormat('HH:mm:ss', new Date());
     }
 
     ngOnInit() {
-    }
-
-    dateFormat(fmt, date) {
-        let ret;
-        const opt = {
-            'y+': date.getFullYear().toString(),        // 年
-            'M+': (date.getMonth() + 1).toString(),     // 月
-            'd+': date.getDate().toString(),            // 日
-            'H+': date.getHours().toString(),           // 时
-            'm+': date.getMinutes().toString(),         // 分
-            's+': date.getSeconds().toString()          // 秒
-            // 有其他格式化字符需求可以继续添加，必须转化成字符串
-        };
-        for (const k in opt) {
-            ret = new RegExp('(' + k + ')').exec(fmt);
-            if (ret) {
-                fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')));
-            }
-        }
-        return fmt;
     }
 
     clearData() {
@@ -52,29 +36,20 @@ export class CreateTagComponent implements OnInit {
         }
     }
 
-    cancel() {
+    cancelOn() {
         this.clearData();
         this.popoverCtrl.dismiss({
             save: false,
         });
     }
 
-    save() {
+    saveOn() {
         this.saveTagData();
     }
 
     saveTagData() {
         const dto = new ThemeTagDataDto();
         dto.tagId = this.tag.id;
-
-        const date = this.selDate + ' ' + this.selTime;
-        const dd = new Date(date);
-        // dto.dateTime = dd.getTime();
-
-        console.log(this.selDate);
-        console.log(this.selTime);
-        console.log(date);
-
         dto.date = this.selDate;
         dto.time = this.selTime;
 
@@ -95,25 +70,29 @@ export class CreateTagComponent implements OnInit {
         }
 
         if (hasItem === false) {
-
+            this.presentErrAlert('请至少填写一项内容');
             return;
         }
 
-        console.log(dto);
-
+        this.loadDataStart();
         this.themeTagDataService.save(dto).subscribe((res: any) => {
             this.clearData();
+
+            this.loadDataCmp();
+
             this.popoverCtrl.dismiss({
                 save: true,
             });
+        }, (error: any) => {
+            this.handleRqtError(error);
         });
     }
 
-    propTitleStr(index, prop: ThemeTagProp): string {
+    propTitleText(index, prop: ThemeTagProp): string {
         let title = (index + 1) + ':' + prop.name;
         title = title + ' (';
 
-        title = title + '类型：' + this.dataTypeStr(prop.dataType);
+        title = title + '类型：' + this.dataTypeText(prop.dataType);
         if (prop.dataUnit) {
             title = title + ';  单位：' + prop.dataUnit;
         }
@@ -123,7 +102,7 @@ export class CreateTagComponent implements OnInit {
         return title;
     }
 
-    dataTypeStr(dataType: number): string {
+    dataTypeText(dataType: number): string {
         // 数据类型：1-Text、2-Int、3-Double、4-Money、5-Enum、6-Time、7-XXX7、8-XXX8、9-XXX9
 
         if (dataType === 1) {

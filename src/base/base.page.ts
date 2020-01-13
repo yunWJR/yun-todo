@@ -81,6 +81,14 @@ export class BasePage {
 
     // region alert
 
+    async presentAlert(msg: string) {
+        this.presentAlertConfirm('提示', msg);
+    }
+
+    async presentErrAlert(msg: string) {
+        this.presentAlertConfirm(' 错误', msg);
+    }
+
     async presentAlertConfirm(header: string, msg: string) {
         const alert = await this.alertController.create({
             header: header === null ? '提示' : header,
