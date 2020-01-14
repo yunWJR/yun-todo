@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header style="margin-bottom: 0px" mode="ios">
     <ion-toolbar>
         <ion-buttons slot="secondary">
             <ion-button color="primary" (click)="nagBackOn()">
@@ -10,19 +10,33 @@
                 统计
             </ion-button>
         </ion-buttons>
-        <ion-title>记录管理</ion-title>
+        <ion-title>记录统计</ion-title>
     </ion-toolbar>
 
+    <!--    <div style="display: flex">-->
+    <!--        <ion-item color="warning" style="width: 50%">-->
+    <!--            <ion-icon name="calendar"></ion-icon>-->
+    <!--            <ion-datetime displayFormat="YYYY-MM-DD" min="2000-01-01" max="2100-12-31"-->
+    <!--                          [(ngModel)]="selDateTime" (ionChange)="dateTimeChange($event)"></ion-datetime>-->
+    <!--        </ion-item>-->
+    <!--        <ion-item color="dark" style="width: 50%">-->
+    <!--            <ion-icon name="bookmarks"></ion-icon>-->
+    <!--            &lt;!&ndash;            <ion-label>主题</ion-label>&ndash;&gt;-->
+    <!--            <ion-select style="width: 100%; display: contents" interface="alert" cancelText="取消" okText="确定"-->
+    <!--                        (ionChange)="themeChange($event)">-->
+    <!--                <ion-select-option value="-1" selected>-->
+    <!--                    全部-->
+    <!--                </ion-select-option>-->
+    <!--                <ion-select-option *ngFor="let item of themeList;let i = index" value="{{i}}">-->
+    <!--                    {{item.name}}-->
+    <!--                </ion-select-option>-->
+    <!--            </ion-select>-->
+    <!--        </ion-item>-->
+    <!--    </div>-->
     <div style="display: flex">
-        <ion-item color="warning" style="width: 50%">
-            <ion-icon name="calendar"></ion-icon>
-            <ion-datetime displayFormat="YYYY-MM-DD" min="2000-01-01" max="2100-12-31"
-                          [(ngModel)]="selDateTime" (ionChange)="dateTimeChange($event)"></ion-datetime>
-        </ion-item>
-        <ion-item color="dark" style="width: 50%">
+        <ion-item lines="none" style="width: 50%">
             <ion-icon name="bookmarks"></ion-icon>
-            <!--            <ion-label>主题</ion-label>-->
-            <ion-select style="width: 100%; display: contents" interface="alert" cancelText="取消" okText="确定"
+            <ion-select style="display: contents" interface="alert" cancelText="取消" okText="确定"
                         (ionChange)="themeChange($event)">
                 <ion-select-option value="-1" selected>
                     全部
@@ -32,12 +46,18 @@
                 </ion-select-option>
             </ion-select>
         </ion-item>
+        <ion-item detail="true" lines="none" style="width: 50%">
+            <ion-icon name="calendar"></ion-icon>
+            <ion-datetime displayFormat="YYYY-MM-DD" min="2000-01-01" max="2100-12-31" cancelText="取消" doneText="确定"
+                          [(ngModel)]="selDateTime" (ionChange)="dateTimeChange($event)"></ion-datetime>
+        </ion-item>
     </div>
 
     <div>
-        <ion-item color="secondary" style="width: 100%">
-            <ion-label>类型</ion-label>
-            <ion-select *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消" okText="确定"
+        <ion-item color="light" style="width: 100%">
+            <ion-label>统计类型：</ion-label>
+            <ion-select placeholder="请选择统计类型" *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消"
+                        okText="确定"
                         (ionChange)="tagChange($event)">
                 <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{item.id}}">
                     {{item.name}}
@@ -46,6 +66,7 @@
         </ion-item>
     </div>
 
+    <div style="height: 1px;background:aliceblue"></div>
 </ion-header>
 
 <ion-content>
@@ -61,12 +82,12 @@
 
     <ion-list lines="none">
         <ion-item-group *ngFor="let item of list">
-            <ion-item-divider color="primary">
+            <ion-item-divider color="medium">
                 <ion-label color="light">{{item.tag.name}}</ion-label>
             </ion-item-divider>
 
             <ion-item *ngIf="item.propStatisticsList.length===0">
-                <ion-label>无数据</ion-label>
+                <ion-label>-无数据</ion-label>
             </ion-item>
 
             <ion-item *ngFor="let st of item.propStatisticsList">

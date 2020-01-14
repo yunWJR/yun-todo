@@ -58,7 +58,6 @@ export class Tab1Page extends BasePage implements OnInit {
 
     // endregion
 
-
     // region rqt
 
     getThemeListRqt() {
@@ -188,7 +187,7 @@ export class Tab1Page extends BasePage implements OnInit {
 
     cmpRefresh() {
         if (this.ionRefresher) {
-            this.ionRefresher.complete().then(r => console.log(r));
+            this.ionRefresher.complete();
         }
     }
 
