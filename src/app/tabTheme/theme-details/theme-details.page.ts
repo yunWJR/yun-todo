@@ -27,6 +27,7 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
         super(navCtrl);
 
         this.activeRoute.queryParams.subscribe((params: Params) => {
+            console.log(params);
             this.themeId = params.themeId;
         });
     }
@@ -37,7 +38,7 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getThemeListRqt();
+        this.getThemeRqt();
     }
 
     // 加载完成后，停止刷新动画
@@ -49,12 +50,11 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
 
     // region rqt
 
-    getThemeListRqt() {
+    getThemeRqt() {
         this.loadDataStart();
 
         this.themeRqt.info(this.themeId, null).subscribe((res: Theme) => {
             this.themeData = res;
-            console.log(res);
 
             this.loadDataCmp();
         }, (error: any) => {
@@ -62,11 +62,11 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
         });
     }
 
-    deleteTheme(themeId: number) {
+    deleteThemeTagRqt(themeId: number) {
         this.loadDataStart();
 
         this.themeRqt.delete(themeId).subscribe((res: any) => {
-            this.getThemeListRqt();
+            this.getThemeRqt();
         }, (error: any) => {
             this.handleRqtError(error);
         });
@@ -80,34 +80,28 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
         this.navCtrl.back();
     }
 
-    addThemeOn() {
-    }
-
     editThemeOn() {
 
     }
 
-    deleteTagOn(theme: ThemeTag) {
-
+    addTagOn() {
     }
 
-    editTagOn(theme: ThemeTag) {
-
-    }
-
-    addTagPropOn(theme: ThemeTag) {
-
-    }
-
-    deleteThemeOn(item: Theme, node: any) {
-        node.close();
-
-        this.presentAlertYesNo('提示', '确认删除模板[' + item.name + ']吗？',
+    deleteTagOn(tag: ThemeTag) {
+        this.presentAlertYesNo('提示', '确认删除分组[' + tag.name + ']吗？',
             (suc => {
-                this.deleteTheme(item.id);
+                this.deleteThemeTagRqt(tag.id);
             }),
             (cancel => {
             }));
+    }
+
+    editTagOn(tag: ThemeTag) {
+
+    }
+
+    addTagPropOn(prop: ThemeTag) {
+
     }
 
     deleteTagPropOn(prop: ThemeTagProp) {
@@ -121,7 +115,7 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
     // endregion
 
     doRefresh() {
-        this.getThemeListRqt();
+        this.getThemeRqt();
     }
 
     cmpRefresh() {
@@ -129,6 +123,4 @@ export class ThemeDetailsPage extends BasePage implements OnInit {
             this.ionRefresher.complete();
         }
     }
-
-
 }
