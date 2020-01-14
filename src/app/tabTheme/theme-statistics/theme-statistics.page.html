@@ -1,0 +1,87 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button color="primary" (click)="nagBackOn()">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="primary">
+            <ion-button color="primary" (click)="nagBackOn()">
+                统计
+            </ion-button>
+        </ion-buttons>
+        <ion-title>记录管理</ion-title>
+    </ion-toolbar>
+
+    <div style="display: flex">
+        <ion-item color="warning" style="width: 50%">
+            <ion-icon name="calendar"></ion-icon>
+            <ion-datetime displayFormat="YYYY-MM-DD" min="2000-01-01" max="2100-12-31"
+                          [(ngModel)]="selDateTime" (ionChange)="dateTimeChange($event)"></ion-datetime>
+        </ion-item>
+        <ion-item color="dark" style="width: 50%">
+            <ion-icon name="bookmarks"></ion-icon>
+            <!--            <ion-label>主题</ion-label>-->
+            <ion-select style="width: 100%; display: contents" interface="alert" cancelText="取消" okText="确定"
+                        (ionChange)="themeChange($event)">
+                <ion-select-option value="-1" selected>
+                    全部
+                </ion-select-option>
+                <ion-select-option *ngFor="let item of themeList;let i = index" value="{{i}}">
+                    {{item.name}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </div>
+
+    <div>
+        <ion-item color="secondary" style="width: 100%">
+            <ion-label>类型</ion-label>
+            <ion-select *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消" okText="确定"
+                        (ionChange)="tagChange($event)">
+                <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{item.id}}">
+                    {{item.name}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </div>
+
+</ion-header>
+
+<ion-content>
+
+    <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
+        <ion-refresher-content
+                pullingIcon="arrow-dropdown"
+                pullingText="下拉刷新"
+                refreshingSpinner="circles"
+                refreshingText="刷新中...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-list lines="none">
+        <ion-item-group *ngFor="let item of list">
+            <ion-item-divider color="primary">
+                <ion-label color="light">{{item.tag.name}}</ion-label>
+            </ion-item-divider>
+
+            <ion-item *ngIf="item.propStatisticsList.length===0">
+                <ion-label>无数据</ion-label>
+            </ion-item>
+
+            <ion-item *ngFor="let st of item.propStatisticsList">
+                <ion-label>{{st.prop.name}}</ion-label>
+                <ion-label>次数：{{st.count}}</ion-label>
+                <ion-label>总数：{{st.dataValue}} {{st.dataUnit}}</ion-label>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
+
+    <!-- Fixed Floating Action Button that does not scroll with the content -->
+    <!--    <ion-fab vertical="bottom" horizontal="end" slot="fixed">-->
+    <!--        <ion-fab-button color="warning" (click)="addTag()">-->
+    <!--            <ion-icon name="add"></ion-icon>-->
+    <!--        </ion-fab-button>-->
+    <!--    </ion-fab>-->
+
+</ion-content>

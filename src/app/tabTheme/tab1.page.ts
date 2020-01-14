@@ -17,7 +17,6 @@ import {ThemeTagDataService} from '../../rqt-service/themeTagData.service';
 export class Tab1Page extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
-    dateTimePickerOptions: any;
     selDateTime: string = new Date().toDateString();
 
     themeList: Theme[];
@@ -41,21 +40,6 @@ export class Tab1Page extends BasePage implements OnInit {
 
         this.themeList = [];
         this.selTheme = null;
-
-        this.dateTimePickerOptions = {
-            buttons: [{
-                text: 'Save',
-                handler: () => {
-                    console.log('Clicked Save!');
-                }
-            }, {
-                text: 'Log',
-                handler: () => {
-                    console.log('Clicked Log. Do not Dismiss.');
-                    return false;
-                }
-            }]
-        };
     }
 
     // region lift cycle
@@ -181,11 +165,19 @@ export class Tab1Page extends BasePage implements OnInit {
     }
 
     mgThemeOn() {
-
+        this.navCtrl.navigateForward('tabs/tabTheme/mg', {
+            queryParams: {
+                returnUrl: '/cart'
+            }
+        });
     }
 
     statisticsThemeOn() {
-
+        this.navCtrl.navigateForward('tabs/tabTheme/statistics', {
+            queryParams: {
+                selDateTime: this.selDateTime
+            }
+        });
     }
 
     // endregion
