@@ -1,0 +1,78 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button color="primary" (click)="nagBackOn()">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="primary">
+            <ion-button color="primary" (click)="addThemeOn()">
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>记录主题详情</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
+        <ion-refresher-content
+                pullingIcon="arrow-dropdown"
+                pullingText="下拉刷新"
+                refreshingSpinner="circles"
+                refreshingText="刷新中...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-card>
+        <ion-item>
+            <ion-card-title>{{themeData.name}}</ion-card-title>
+            <ion-button color="undefined" (click)="editThemeOn()">
+                <ion-icon color="medium" slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+        </ion-item>
+
+        <ion-card-content>
+            {{themeData.remark}}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-list lines="full">
+        <ion-item-group *ngFor="let tag of themeData.tagList">
+            <ion-item style="height: 1px;background:aliceblue;width: 100%" color="medium"></ion-item>
+
+            <ion-item-divider color="light">
+                <ion-label>主题：{{tag.name}}</ion-label>
+
+                <ion-buttons color="undefined" slot="end">
+                    <ion-button (click)="deleteTagOn(tag)">
+                        <ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
+                    </ion-button>
+                    <ion-button (click)="editTagOn(tag)">
+                        <ion-icon color="medium" slot="icon-only" name="create"></ion-icon>
+                    </ion-button>
+                    <ion-button (click)="addTagPropOn(tag)">
+                        <ion-icon color="success" slot="icon-only" name="add"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-item-divider>
+
+            <ion-item lines="full" *ngFor="let prop of tag. propList;let ip = index;">
+                <ion-label>{{(ip + 1) + '）' + prop.name}}</ion-label>
+                <ion-label>类型：{{prop.dataType}}</ion-label>
+                <ion-label>单位：{{prop.dataUnit}}</ion-label>
+                <ion-buttons color="undefined" slot="end">
+                    <ion-button (click)="editTagPropOn(prop)">
+                        <ion-icon color="medium" slot="icon-only" name="create"></ion-icon>
+                    </ion-button>
+                    <ion-button (click)="deleteTagPropOn(prop)">
+                        <ion-icon color="danger" slot="icon-only" name="close"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-item>
+
+
+        </ion-item-group>
+    </ion-list>
+
+</ion-content>

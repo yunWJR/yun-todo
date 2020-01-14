@@ -1,26 +1,34 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasePage} from '../../../base/base.page';
 import {IonRefresher, NavController} from '@ionic/angular';
-import {Router} from '@angular/router';
-import {Theme, ThemeService} from '../../../rqt-service/theme.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Theme, ThemeService, ThemeTag, ThemeTagProp} from '../../../rqt-service/theme.service';
 import {DateUtils} from '../../../utils/date.utils';
 
 @Component({
-    selector: 'app-theme-mg',
-    templateUrl: './theme-mg.page.html',
-    styleUrls: ['./theme-mg.page.scss'],
+    selector: 'app-theme-details',
+    templateUrl: './theme-details.page.html',
+    styleUrls: ['./theme-details.page.scss'],
 })
-export class ThemeMgPage extends BasePage implements OnInit {
+export class ThemeDetailsPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
-    themeList: Theme[];
+    themeId: number;
+
+    themeData: Theme = new Theme();
 
     constructor(
         public navCtrl: NavController,
         public router: Router,
         public themeRqt: ThemeService,
+        public dateUtils: DateUtils,
+        public activeRoute: ActivatedRoute,
     ) {
         super(navCtrl);
+
+        this.activeRoute.queryParams.subscribe((params: Params) => {
+            this.themeId = params.themeId;
+        });
     }
 
     // region lift cycle
@@ -44,8 +52,9 @@ export class ThemeMgPage extends BasePage implements OnInit {
     getThemeListRqt() {
         this.loadDataStart();
 
-        this.themeRqt.list().subscribe((res: Theme[]) => {
-            this.themeList = res;
+        this.themeRqt.info(this.themeId, null).subscribe((res: Theme) => {
+            this.themeData = res;
+            console.log(res);
 
             this.loadDataCmp();
         }, (error: any) => {
@@ -74,13 +83,20 @@ export class ThemeMgPage extends BasePage implements OnInit {
     addThemeOn() {
     }
 
-    clickThemeOn(theme: Theme) {
-        this.navCtrl.navigateForward('tabs/tabTheme/mg/details', {
-            queryParams: {
-                themeData: theme,
-                themeId: theme.id,
-            }
-        });
+    editThemeOn() {
+
+    }
+
+    deleteTagOn(theme: ThemeTag) {
+
+    }
+
+    editTagOn(theme: ThemeTag) {
+
+    }
+
+    addTagPropOn(theme: ThemeTag) {
+
     }
 
     deleteThemeOn(item: Theme, node: any) {
@@ -94,6 +110,14 @@ export class ThemeMgPage extends BasePage implements OnInit {
             }));
     }
 
+    deleteTagPropOn(prop: ThemeTagProp) {
+
+    }
+
+    editTagPropOn(prop: ThemeTagProp) {
+
+    }
+
     // endregion
 
     doRefresh() {
@@ -105,4 +129,6 @@ export class ThemeMgPage extends BasePage implements OnInit {
             this.ionRefresher.complete();
         }
     }
+
+
 }

@@ -24,6 +24,10 @@ const routes: Routes = [
                         path: 'statistics',
                         loadChildren: () =>
                             import('../tabTheme/theme-statistics/theme-statistics.module').then(m => m.ThemeStatisticsPageModule)
+                    },
+                    {
+                        path: 'mg/details',
+                        loadChildren: () => import('../tabTheme/theme-details/theme-details.module').then(m => m.ThemeDetailsPageModule)
                     }
                 ]
             },
