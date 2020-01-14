@@ -1,8 +1,16 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>
-            记录列表
-        </ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button color="primary" (click)="mgThemeOn()">
+                管理
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="primary">
+            <ion-button color="primary" (click)="statisticsThemeOn()">
+                统计
+            </ion-button>
+        </ion-buttons>
+        <ion-title>记录列表</ion-title>
     </ion-toolbar>
 
     <div style="display: flex">
@@ -29,7 +37,6 @@
             </ion-select>
         </ion-item>
     </div>
-
 </ion-header>
 
 <ion-content>

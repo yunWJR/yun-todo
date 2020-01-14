@@ -58,6 +58,8 @@ export class Tab1Page extends BasePage implements OnInit {
         };
     }
 
+    // region lift cycle
+
     ngOnInit() {
     }
 
@@ -70,15 +72,8 @@ export class Tab1Page extends BasePage implements OnInit {
         this.cmpRefresh();
     }
 
-    doRefresh() {
-        this.getThemeListRqt();
-    }
+    // endregion
 
-    cmpRefresh() {
-        if (this.ionRefresher) {
-            this.ionRefresher.complete().then(r => console.log(r));
-        }
-    }
 
     // region rqt
 
@@ -147,15 +142,7 @@ export class Tab1Page extends BasePage implements OnInit {
 
     // endregion
 
-    propText(propData: TagPropData): string {
-        let vl = propData.propData.orgValue;
-
-        if (propData.prop.dataUnit) {
-            vl = vl + ' ' + propData.prop.dataUnit;
-        }
-
-        return vl;
-    }
+    // region handle
 
     addTagOn() {
         if (!this.selTheme) {
@@ -193,9 +180,39 @@ export class Tab1Page extends BasePage implements OnInit {
             }));
     }
 
+    mgThemeOn() {
+
+    }
+
+    statisticsThemeOn() {
+
+    }
+
+    // endregion
+
+    doRefresh() {
+        this.getThemeListRqt();
+    }
+
+    cmpRefresh() {
+        if (this.ionRefresher) {
+            this.ionRefresher.complete().then(r => console.log(r));
+        }
+    }
+
+    propText(propData: TagPropData): string {
+        let vl = propData.propData.orgValue;
+
+        if (propData.prop.dataUnit) {
+            vl = vl + ' ' + propData.prop.dataUnit;
+        }
+
+        return vl;
+    }
+
     // 选择
     async presentTagActionSheet(res: Theme) {
-        const buttons = [];
+        const btns = [];
         for (const tag of res.tagList) {
             if (tag.propList.length === 0) {
                 continue;
@@ -208,11 +225,11 @@ export class Tab1Page extends BasePage implements OnInit {
                     this.gotoAddTag(tag.id);
                 }
             };
-            buttons.push(bt);
+            btns.push(bt);
         }
 
         // cancel
-        buttons.push({
+        btns.push({
             text: '取 消',
             // icon: 'close',
             role: 'cancel',
@@ -223,7 +240,7 @@ export class Tab1Page extends BasePage implements OnInit {
 
         const actionSheet = await this.actionSheetController.create({
             header: '选择记录类型',
-            buttons: buttons,
+            buttons: btns,
         });
         await actionSheet.present();
     }
@@ -245,15 +262,15 @@ export class Tab1Page extends BasePage implements OnInit {
         const rst = this.presentAddTagPopover(null, tag);
     }
 
-    async presentAddTagPopover(ev: any, tag: any) {
-        const selDate = this.dateUtils.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
+    async presentAddTagPopover(ev: any, tagValue: any) {
+        const selDateValue = this.dateUtils.dateFormat('yyyy-MM-dd', new Date(this.selDateTime));
         const popover = await this.popoverController.create({
             component: CreateTagComponent,
             event: ev,
             translucent: true,
             componentProps: {
-                tag: tag,
-                selDate: selDate,
+                tag: tagValue,
+                selDate: selDateValue,
             },
             cssClass: 'create-tag',
         });
@@ -287,5 +304,4 @@ export class Tab1Page extends BasePage implements OnInit {
 
         this.getListRqt();
     }
-
 }
