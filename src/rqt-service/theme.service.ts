@@ -49,4 +49,8 @@ export class ThemeService {
     info(themeId: number, params) {
         return this.httpClient.get(`/v1/api/record/theme/${themeId}`, {params});
     }
+
+    delete(themeId: number) {
+        return this.httpClient.delete(`/v1/api/record/theme/${themeId}`);
+    }
 }

@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasePage} from '../../../base/base.page';
-import {ActionSheetController, NavController, PopoverController} from '@ionic/angular';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ThemeDataService} from '../../../rqt-service/themeData.service';
-import {ThemeService} from '../../../rqt-service/theme.service';
+import {IonRefresher, NavController} from '@ionic/angular';
+import {Router} from '@angular/router';
+import {Theme, ThemeService} from '../../../rqt-service/theme.service';
 import {ThemeTagDataService} from '../../../rqt-service/themeTagData.service';
 import {DateUtils} from '../../../utils/date.utils';
 
@@ -13,29 +12,95 @@ import {DateUtils} from '../../../utils/date.utils';
     styleUrls: ['./theme-mg.page.scss'],
 })
 export class ThemeMgPage extends BasePage implements OnInit {
+    @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
+
+    themeList: Theme[];
 
     constructor(
         public navCtrl: NavController,
         public router: Router,
-        public themeDataRqt: ThemeDataService,
         public themeRqt: ThemeService,
-        public actionSheetController: ActionSheetController,
-        public popoverController: PopoverController,
         public themeTagDataRqt: ThemeTagDataService,
         public dateUtils: DateUtils,
-        public activeRoute: ActivatedRoute,
     ) {
         super(navCtrl);
-
-        this.activeRoute.queryParams.subscribe((params: Params) => {
-            console.log(params);
-        });
     }
+
+    // region lift cycle
 
     ngOnInit() {
     }
 
+    ionViewDidEnter() {
+        this.getThemeListRqt();
+    }
+
+    // 加载完成后，停止刷新动画
+    loadDataCmpHandle() {
+        this.cmpRefresh();
+    }
+
+    // endregion
+
+    // region rqt
+
+    getThemeListRqt() {
+        this.loadDataStart();
+
+        this.themeRqt.list().subscribe((res: Theme[]) => {
+            this.themeList = res;
+
+            this.loadDataCmp();
+        }, (error: any) => {
+            this.handleRqtError(error);
+        });
+    }
+
+    deleteTheme(themeId: number) {
+        this.loadDataStart();
+
+        this.themeRqt.delete(themeId).subscribe((res: any) => {
+            this.getThemeListRqt();
+        }, (error: any) => {
+            this.handleRqtError(error);
+        });
+    }
+
+    // endregion
+
+    // region handle
+
     nagBackOn() {
         this.navCtrl.back();
+    }
+
+    addThemeOn() {
+    }
+
+    clickThemeOn(theme: Theme) {
+
+    }
+
+    deleteThemeOn(item: Theme, node: any) {
+        node.close();
+
+        this.presentAlertYesNo('提示', '确认删除模板[' + item.name + ']吗？',
+            (suc => {
+                this.deleteTheme(item.id);
+            }),
+            (cancel => {
+            }));
+    }
+
+    // endregion
+
+    doRefresh() {
+        this.getThemeListRqt();
+    }
+
+    cmpRefresh() {
+        if (this.ionRefresher) {
+            this.ionRefresher.complete();
+        }
     }
 }
