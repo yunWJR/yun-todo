@@ -1,0 +1,8 @@
+{
+  "appId": "com.skkj.record",
+  "appName": "YUN 记录",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

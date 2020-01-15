@@ -30,3 +30,12 @@
   --max-width: 80%;
   --max-height: 90%;
 }
+
+.ion-color-yun {
+  --ion-color-base: var(--ion-color-yun);
+  --ion-color-base-rgb: var(--ion-color-yun-rgb);
+  --ion-color-contrast: var(--ion-color-yun-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-yun-contrast-rgb);
+  --ion-color-shade: var(--ion-color-yun-shade);
+  --ion-color-tint: var(--ion-color-yun-tint);
+}

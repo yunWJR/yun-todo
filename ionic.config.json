@@ -1,5 +1,7 @@
 {
-  "name": "yun-todo",
-  "integrations": {},
+  "name": "YUN 记录",
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
