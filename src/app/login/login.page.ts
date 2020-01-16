@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {LoginPara, LoginService, LoginUser} from '../../rqt-service/login.service';
 import {BasePage} from '../../base/base.page';
 import {DataStorage} from '../../base/data-storage.service';
+import {Theme} from '../../rqt-service/theme.service';
 
 @Component({
     selector: 'app-login',
@@ -46,7 +47,21 @@ export class LoginPage extends BasePage implements OnInit {
         this.service.login(para).subscribe((res: LoginUser) => {
             this.dataStorage.saveLoginToken(res.loginToken);
 
+            this.checkThemeTemplate();
+
+        }, (error: any) => {
+            this.handleRqtError(error);
+        });
+    }
+
+    checkThemeTemplate() {
+        this.service.checkThemeTemplate().subscribe((res: Theme) => {
+            if (res && res.name) {
+                this.presentToast('成功添加默认主题:' + res.name);
+            }
+
             this.loadDataCmp();
+
             this.navCtrl.navigateRoot('');
         }, (error: any) => {
             this.handleRqtError(error);

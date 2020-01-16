@@ -22,6 +22,10 @@ export class LoginService {
     info() {
         return this.httpClient.get(`/v1/api/my/myInfo`);
     }
+
+    checkThemeTemplate() {
+        return this.httpClient.post(`/v1/api/record/theme/checkTemplate`, null);
+    }
 }
 
 export class LoginPara {
