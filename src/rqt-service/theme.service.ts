@@ -28,6 +28,12 @@ export class ThemeTagProp {
     dataValue: string; // 自定义属性：输入值
 }
 
+export class ThemeDto {
+    tmpId: number;
+    name: string;
+    remark: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -52,5 +58,9 @@ export class ThemeService {
 
     delete(themeId: number) {
         return this.httpClient.delete(`/v1/api/record/theme/${themeId}`);
+    }
+
+    create(body: ThemeDto) {
+        return this.httpClient.post(`/v1/api/record/theme`, body);
     }
 }

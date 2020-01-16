@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="secondary">
+            <ion-button color="primary" (click)="nagBackOn()">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>创建主题</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
+        <ion-refresher-content
+                pullingIcon="arrow-dropdown"
+                pullingText="下拉刷新"
+                refreshingSpinner="circles"
+                refreshingText="刷新中...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-card color="light">
+        <ion-item color="light">
+            <ion-label> 自定义模板</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-input [(ngModel)]="themeName" placeholder="请输入模板名称" clear-input="true">
+            </ion-input>
+            <ion-button (click)="createThemeOn()">创建</ion-button>
+        </ion-item>
+    </ion-card>
+
+    <ion-list lines="full">
+        <ion-card #ionCard *ngFor="let theme of themeList">
+            <ion-item color="medium" detail (click)="tmpThemeOn(theme)">
+                <ion-label>模板：{{theme.name}}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-input #ionInput placeholder="请输入模板名称" clear-input="true">
+                </ion-input>
+
+                <ion-button (click)="createTmpThemeOn(theme,ionInput)">创建</ion-button>
+            </ion-item>
+        </ion-card>
+    </ion-list>
+</ion-content>

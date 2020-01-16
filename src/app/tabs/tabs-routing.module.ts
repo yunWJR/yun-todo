@@ -28,6 +28,10 @@ const routes: Routes = [
                     {
                         path: 'mg/details',
                         loadChildren: () => import('../tabTheme/theme-details/theme-details.module').then(m => m.ThemeDetailsPageModule)
+                    },
+                    {
+                        path: 'mg/create',
+                        loadChildren: () => import('../tabTheme/create-theme/create-theme.module').then(m => m.CreateThemePageModule)
                     }
                 ]
             },

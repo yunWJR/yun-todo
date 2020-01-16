@@ -3,7 +3,6 @@ import {BasePage} from '../../../base/base.page';
 import {IonRefresher, NavController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {Theme, ThemeService} from '../../../rqt-service/theme.service';
-import {DateUtils} from '../../../utils/date.utils';
 
 @Component({
     selector: 'app-theme-mg',
@@ -72,6 +71,9 @@ export class ThemeMgPage extends BasePage implements OnInit {
     }
 
     addThemeOn() {
+        this.navCtrl.navigateForward('tabs/tabTheme/mg/create', {
+            queryParams: {}
+        });
     }
 
     clickThemeOn(theme: Theme) {

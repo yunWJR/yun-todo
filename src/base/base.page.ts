@@ -1,4 +1,4 @@
-import {AlertController, LoadingController, NavController} from '@ionic/angular';
+import {AlertController, LoadingController, NavController, ToastController} from '@ionic/angular';
 import {BaseModel} from './base-model';
 
 // Page基础类
@@ -11,12 +11,16 @@ export class BasePage {
     // alert
     public alertController: AlertController;
 
+    // toast
+    public toastController: ToastController;
 
     constructor(
         public navController: NavController,
     ) {
         this.loadingController = new LoadingController();
         this.alertController = new AlertController();
+
+        this.toastController = new ToastController();
     }
 
 
@@ -154,6 +158,30 @@ export class BasePage {
         });
 
         await alert.present();
+    }
+
+    // endregion
+
+    // region alert
+
+    async presentToast(msg: string) {
+        if (!msg) {
+            return;
+        }
+
+        // 动态时间
+        let dur = 2000;
+        if (msg.length > 20 && msg.length <= 100) {
+            dur = msg.length * 0.1 * 1000;
+        } else if (msg.length > 100) {
+            dur = 10000;
+        }
+
+        const toast = await this.toastController.create({
+            message: msg,
+            duration: dur
+        });
+        toast.present();
     }
 
     // endregion
