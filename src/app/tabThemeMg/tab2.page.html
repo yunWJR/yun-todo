@@ -8,15 +8,15 @@
     <div style="display: flex">
         <ion-item color="warning" style="width: 50%">
             <ion-icon name="calendar"></ion-icon>
-            <ion-datetime displayFormat="YYYY-MM-DD" min="2000-01-01" max="2100-12-31"
-                          [(ngModel)]="selDateTime" (ionChange)="dateTimeChange($event)"></ion-datetime>
+            <ion-datetime (ionChange)="dateTimeChange($event)" [(ngModel)]="selDateTime"
+                          displayFormat="YYYY-MM-DD" max="2100-12-31" min="2000-01-01"></ion-datetime>
         </ion-item>
         <ion-item color="dark" style="width: 50%">
             <ion-icon name="bookmarks"></ion-icon>
             <!--            <ion-label>主题</ion-label>-->
-            <ion-select style="width: 100%; display: contents" interface="alert" cancelText="取消" okText="确定"
-                        (ionChange)="themeChange($event)">
-                <ion-select-option value="-1" selected>
+            <ion-select (ionChange)="themeChange($event)" cancelText="取消" interface="alert" okText="确定"
+                        style="width: 100%; display: contents">
+                <ion-select-option selected value="-1">
                     全部
                 </ion-select-option>
                 <ion-select-option *ngFor="let item of themeList;let i = index" value="{{i}}">
@@ -29,8 +29,9 @@
     <div>
         <ion-item color="secondary" style="width: 100%">
             <ion-label>类型</ion-label>
-            <ion-select *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消" okText="确定"
-                        (ionChange)="tagChange($event)">
+            <ion-select (ionChange)="tagChange($event)" *ngIf="tagTheme!=null" cancelText="取消" interface="alert"
+                        multiple="true"
+                        okText="确定">
                 <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{item.id}}">
                     {{item.name}}
                 </ion-select-option>
@@ -42,7 +43,7 @@
 
 <ion-content>
 
-    <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
+    <ion-refresher #ionRefresher (ionRefresh)="doRefresh()" slot="fixed">
         <ion-refresher-content
                 pullingIcon="arrow-dropdown"
                 pullingText="下拉刷新"

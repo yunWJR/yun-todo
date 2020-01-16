@@ -186,6 +186,10 @@ export class BasePage {
 
     // endregion
 
+    // region input
+
+    // endregion
+
     handleRqtError(error: any) {
         this.loadDataCmpHandle();
 

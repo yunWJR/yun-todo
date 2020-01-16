@@ -1,12 +1,12 @@
-<ion-header style="margin-bottom: 0px" mode="ios">
+<ion-header mode="ios" style="margin-bottom: 0px">
     <ion-toolbar>
         <ion-buttons slot="secondary">
-            <ion-button color="primary" (click)="nagBackOn()">
-                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            <ion-button (click)="nagBackOn()" color="primary">
+                <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-buttons>
         <ion-buttons slot="primary">
-            <ion-button color="primary" (click)="nagBackOn()">
+            <ion-button (click)="nagBackOn()" color="primary">
                 统计
             </ion-button>
         </ion-buttons>
@@ -36,9 +36,9 @@
     <div style="display: flex">
         <ion-item lines="none" style="width: 50%">
             <ion-icon name="bookmarks"></ion-icon>
-            <ion-select style="display: contents" interface="alert" cancelText="取消" okText="确定"
-                        (ionChange)="themeChange($event)">
-                <ion-select-option value="-1" selected>
+            <ion-select (ionChange)="themeChange($event)" cancelText="取消" interface="alert" okText="确定"
+                        style="display: contents">
+                <ion-select-option selected value="-1">
                     全部
                 </ion-select-option>
                 <ion-select-option *ngFor="let item of themeList;let i = index" value="{{i}}">
@@ -48,17 +48,19 @@
         </ion-item>
         <ion-item detail="true" lines="none" style="width: 50%">
             <ion-icon name="calendar"></ion-icon>
-            <ion-datetime displayFormat="YYYY-MM-DD" min="2000-01-01" max="2100-12-31" cancelText="取消" doneText="确定"
-                          [(ngModel)]="selDateTime" (ionChange)="dateTimeChange($event)"></ion-datetime>
+            <ion-datetime (ionChange)="dateTimeChange($event)" [(ngModel)]="selDateTime" cancelText="取消"
+                          displayFormat="YYYY-MM-DD" doneText="确定"
+                          max="2100-12-31" min="2000-01-01"></ion-datetime>
         </ion-item>
     </div>
 
     <div>
         <ion-item color="light" style="width: 100%">
             <ion-label>统计类型：</ion-label>
-            <ion-select placeholder="请选择统计类型" *ngIf="tagTheme!=null" multiple="true" interface="alert" cancelText="取消"
+            <ion-select (ionChange)="tagChange($event)" *ngIf="tagTheme!=null" cancelText="取消" interface="alert"
+                        multiple="true"
                         okText="确定"
-                        (ionChange)="tagChange($event)">
+                        placeholder="请选择统计类型">
                 <ion-select-option *ngFor="let item of tagTheme.tagList;let i = index" value="{{item.id}}">
                     {{item.name}}
                 </ion-select-option>
@@ -71,7 +73,7 @@
 
 <ion-content>
 
-    <ion-refresher #ionRefresher slot="fixed" (ionRefresh)="doRefresh()">
+    <ion-refresher #ionRefresher (ionRefresh)="doRefresh()" slot="fixed">
         <ion-refresher-content
                 pullingIcon="arrow-dropdown"
                 pullingText="下拉刷新"

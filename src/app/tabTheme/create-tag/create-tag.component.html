@@ -5,11 +5,11 @@
 
 <ion-item>
     <ion-label>发生时间</ion-label>
-    <ion-datetime displayFormat="HH:mm:ss" [(ngModel)]="selTime" cancelText="取消" doneText="确定"></ion-datetime>
+    <ion-datetime [(ngModel)]="selTime" cancelText="取消" displayFormat="HH:mm:ss" doneText="确定"></ion-datetime>
 </ion-item>
 
 <ion-content>
-    <ion-list lines="full" *ngFor="let prop of tag.propList;let i = index">
+    <ion-list *ngFor="let prop of tag.propList;let i = index" lines="full">
         <ion-item>
             <ion-label>{{propTitleText(i, prop)}}</ion-label>
             <!--        <ion-label>类型：{{dataTypeStr(prop.dataType)}}</ion-label>-->
@@ -17,14 +17,14 @@
         </ion-item>
 
         <ion-item>
-            <ion-input [(ngModel)]="prop.dataValue" *ngIf="dataTypeInput(prop.dataType)===1"></ion-input>
-            <ion-textarea [(ngModel)]="prop.dataValue" *ngIf="dataTypeInput(prop.dataType)===2"></ion-textarea>
+            <ion-input *ngIf="dataTypeInput(prop.dataType)===1" [(ngModel)]="prop.dataValue"></ion-input>
+            <ion-textarea *ngIf="dataTypeInput(prop.dataType)===2" [(ngModel)]="prop.dataValue"></ion-textarea>
         </ion-item>
     </ion-list>
 </ion-content>
 
 <div style="text-align: center;margin-bottom: 20px;margin-top: 30px">
-    <ion-button style="width: 40%;padding-right: 4%" color="medium" (click)="cancelOn()">取消</ion-button>
-    <ion-button style="width: 40%;padding-left: 4%" color="primary" (click)="saveOn()">保存</ion-button>
+    <ion-button (click)="cancelOn()" color="medium" style="width: 40%;padding-right: 4%">取消</ion-button>
+    <ion-button (click)="saveOn()" color="primary" style="width: 40%;padding-left: 4%">保存</ion-button>
 </div>
 

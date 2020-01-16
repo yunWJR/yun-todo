@@ -1,20 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { CreateThemePageRoutingModule } from './create-theme-routing.module';
+import {CreateThemePageRoutingModule} from './create-theme-routing.module';
 
-import { CreateThemePage } from './create-theme.page';
+import {CreateThemePage} from './create-theme.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CreateThemePageRoutingModule
-  ],
-  declarations: [CreateThemePage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CreateThemePageRoutingModule
+    ],
+    declarations: [CreateThemePage]
 })
-export class CreateThemePageModule {}
+export class CreateThemePageModule {
+}

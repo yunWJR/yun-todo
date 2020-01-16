@@ -12,10 +12,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {RqtServiceModule} from '../rqt-service/rqt-service.module';
 import {CreateTagComponent} from './tabTheme/create-tag/create-tag.component';
 import {FormsModule} from '@angular/forms';
+import {InputComponent} from './common/component/input/input.component';
 
 @NgModule({
-    declarations: [AppComponent, CreateTagComponent],
-    entryComponents: [CreateTagComponent],
+    declarations: [AppComponent, CreateTagComponent, InputComponent],
+    entryComponents: [CreateTagComponent, InputComponent],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),

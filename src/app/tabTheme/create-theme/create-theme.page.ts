@@ -58,7 +58,7 @@ export class CreateThemePage extends BasePage implements OnInit {
         });
     }
 
-    createTheme(name: string, remark: string, tmpId: number) {
+    createThemeRqt(name: string, remark: string, tmpId: number) {
         this.loadDataStart();
 
         const dto = new ThemeDto();
@@ -89,7 +89,7 @@ export class CreateThemePage extends BasePage implements OnInit {
             return;
         }
 
-        this.createTheme(this.themeName, null, null);
+        this.createThemeRqt(this.themeName, null, null);
     }
 
     createTmpThemeOn(tmp: Theme, ionInput: IonInput) {
@@ -98,7 +98,7 @@ export class CreateThemePage extends BasePage implements OnInit {
             return;
         }
 
-        this.createTheme(ionInput.value, null, tmp.id);
+        this.createThemeRqt(ionInput.value, null, tmp.id);
     }
 
     tmpThemeOn(tmp: Theme) {

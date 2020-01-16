@@ -56,6 +56,7 @@ export class ThemeMgPage extends BasePage implements OnInit {
         this.loadDataStart();
 
         this.themeRqt.delete(themeId).subscribe((res: any) => {
+            this.presentToast('共删除' + res + '条数据');
             this.getThemeListRqt();
         }, (error: any) => {
             this.handleRqtError(error);
