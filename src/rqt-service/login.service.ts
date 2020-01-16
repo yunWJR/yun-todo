@@ -11,6 +11,10 @@ export class LoginService {
     ) {
     }
 
+    register(params) {
+        return this.httpClient.post(`/v1/api/login/register`, null, {params});
+    }
+
     login(params) {
         return this.httpClient.post(`/v1/api/login/login`, null, {params});
     }

@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "yun-todo",
+  "appId": "com.skkj.record",
+  "appName": "YUN 记录",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

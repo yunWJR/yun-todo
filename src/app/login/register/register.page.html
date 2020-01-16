@@ -1,11 +1,39 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>register</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button (click)="nagBackOn()" color="primary">
+                <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>注 册</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div class="ion-padding">
-        <ion-button (click)="goBack()" class="ion-no-margin" expand="block" type="submit">返回</ion-button>
-    </div>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title align="center" margin-bottom="40px">注册帐号</ion-card-title>
+        </ion-card-header>
+    </ion-card>
+
+    <ion-list>
+        <ion-item>
+            <ion-label position="floating">帐号
+                <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input [(ngModel)]="name" clearInput=true type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="floating">密码
+                <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-input [(ngModel)]="pws" clearInput=true type="password"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="registerOn()" color="primary" style="padding: 20px">
+            <ion-title>注 册</ion-title>
+        </ion-item>
+
+    </ion-list>
 </ion-content>

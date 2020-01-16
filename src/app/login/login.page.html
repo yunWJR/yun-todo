@@ -18,7 +18,7 @@
             <ion-col>
                 <ion-list class="no-border" inset>
                     <ion-item [class.error]="!username.valid && username.touched">
-                        <ion-label position="stacked">帐号
+                        <ion-label position="floating">帐号
                             <ion-text color="danger">*</ion-text>
                         </ion-label>
                         <ion-input [formControl]="username" clearInput=true type="text"></ion-input>
@@ -27,7 +27,7 @@
                     <!--                    <div *ngIf="(username.hasError('minlength')||username.hasError('maxlength')||username.hasError('pattern')) && username.touched" class="error-message">*请输入正确的电话号码</div>-->
 
                     <ion-item>
-                        <ion-label position="stacked">密码
+                        <ion-label position="floating">密码
                             <ion-text color="danger">*</ion-text>
                         </ion-label>
                         <ion-input [formControl]="password" clearInput=true type="password"></ion-input>
