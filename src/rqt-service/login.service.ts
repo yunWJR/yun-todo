@@ -14,6 +14,10 @@ export class LoginService {
     login(params) {
         return this.httpClient.post(`/v1/api/login/login`, null, {params});
     }
+
+    info() {
+        return this.httpClient.get(`/v1/api/my/myInfo`);
+    }
 }
 
 export class LoginPara {

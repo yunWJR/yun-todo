@@ -4,16 +4,22 @@ import {Injectable} from '@angular/core';
     providedIn: 'root'
 })
 export class DataStorage {
+    tokenKey: 'token';
+
     constructor() {
     }
 
     saveLoginToken(token: string) {
-        localStorage.setItem('token', token);
+        localStorage.setItem(this.tokenKey, token);
     }
 
     getLoginToken(): string {
-        const token = localStorage.getItem('token') || '';
+        const token = localStorage.getItem(this.tokenKey) || '';
 
         return token;
+    }
+
+    clearLoginToken() {
+        localStorage.removeItem(this.tokenKey);
     }
 }

@@ -7,5 +7,15 @@
 </ion-header>
 
 <ion-content>
-    <ion-button (click)="logout()">退出登录</ion-button>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>{{user.acctName}}</ion-card-title>
+            <ion-card-subtitle>{{user.phone}}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-button (click)="logout()" expand="block">退出登录</ion-button>
 </ion-content>
