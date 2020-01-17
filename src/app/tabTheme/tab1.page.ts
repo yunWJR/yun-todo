@@ -26,6 +26,13 @@ export class Tab1Page extends BasePage implements OnInit {
 
     list: ThemeTagData[] = [];
 
+    customAlertOptions: any = {
+        header: '请选择主题',
+        // subHeader: 'Select your toppings',
+        // message: '$1.00 per topping',
+        translucent: true
+    };
+
     constructor(
         public navCtrl: NavController,
         public router: Router,

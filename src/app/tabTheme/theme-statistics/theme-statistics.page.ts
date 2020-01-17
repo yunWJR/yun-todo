@@ -26,6 +26,13 @@ export class ThemeStatisticsPage extends BasePage implements OnInit {
     selTagIds: number[];
     list: ThemeTagStatistics[] = [];
 
+    customAlertOptions: any = {
+        header: '请选择主题',
+        // subHeader: 'Select your toppings',
+        // message: '$1.00 per topping',
+        translucent: true
+    };
+
     constructor(
         public navCtrl: NavController,
         private router: Router,

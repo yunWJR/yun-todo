@@ -4,6 +4,7 @@ import {NavController, PopoverController} from '@ionic/angular';
 import {TagPropDataDto, ThemeTagDataDto, ThemeTagDataService} from '../../../rqt-service/themeTagData.service';
 import {BasePage} from '../../../base/base.page';
 import {DateUtils} from '../../../utils/date.utils';
+import {ThemeTagPropDataTypeUtil} from '../../common/module/theme.tag.prop.dataType.util';
 
 @Component({
     selector: 'app-create-tag',
@@ -17,6 +18,8 @@ export class CreateTagComponent extends BasePage implements OnInit {
     @Input() selDate: string;
 
     selTime: string;
+
+    dataType: ThemeTagPropDataTypeUtil = new ThemeTagPropDataTypeUtil();
 
     constructor(
         public navCtrl: NavController,
@@ -91,36 +94,25 @@ export class CreateTagComponent extends BasePage implements OnInit {
 
     propTitleText(index, prop: ThemeTagProp): string {
         let title = (index + 1) + ':' + prop.name;
-        title = title + ' (';
 
-        title = title + '类型：' + this.dataTypeText(prop.dataType);
+        title = title + '[' + this.dataType.nameByType(prop.dataType);
         if (prop.dataUnit) {
-            title = title + ';  单位：' + prop.dataUnit;
+            title = title + '：' + prop.dataUnit;
         }
 
-        title = title + ')';
+        title = title + ']';
 
         return title;
     }
 
-    dataTypeText(dataType: number): string {
-        // 数据类型：1-Text、2-Int、3-Double、4-Money、5-Enum、6-Time、7-XXX7、8-XXX8、9-XXX9
+    propPlaceholderText(index, prop: ThemeTagProp): string {
+        let title = '请输入' + this.dataType.nameByType(prop.dataType);
 
-        if (dataType === 1) {
-            return '文本';
-        } else if (dataType === 2) {
-            return '数字';
-        } else if (dataType === 3) {
-            return '小数';
-        } else if (dataType === 4) {
-            return '金额';
-        } else if (dataType === 5) {
-            return '选择';
-        } else if (dataType === 6) {
-            return '次';
+        if (prop.dataUnit) {
+            title = title + '(单位：' + prop.dataUnit + ')';
         }
 
-        return '未知类型';
+        return title;
     }
 
     // 1-input 2-text 3-none

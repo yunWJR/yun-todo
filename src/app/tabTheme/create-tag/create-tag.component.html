@@ -3,22 +3,27 @@
     <ion-label color="primary"> {{tag.name}}</ion-label>
 </p>
 
-<ion-item>
-    <ion-label>发生时间</ion-label>
-    <ion-datetime [(ngModel)]="selTime" cancelText="取消" displayFormat="HH:mm:ss" doneText="确定"></ion-datetime>
-</ion-item>
+<!--<ion-item detail="true" lines="null">-->
+<!--    <ion-label>发生时间</ion-label>-->
+<!--    <ion-datetime [(ngModel)]="selTime" cancelText="取消" displayFormat="HH:mm:ss" doneText="确定"></ion-datetime>-->
+<!--</ion-item>-->
 
 <ion-content>
+    <ion-item color="light" detail="true" lines="null">
+        <ion-label>发生时间</ion-label>
+        <ion-datetime [(ngModel)]="selTime" cancelText="取消" displayFormat="HH:mm:ss" doneText="确定"></ion-datetime>
+    </ion-item>
+
     <ion-list *ngFor="let prop of tag.propList;let i = index" lines="full">
-        <ion-item>
+        <ion-item color="primary">
             <ion-label>{{propTitleText(i, prop)}}</ion-label>
-            <!--        <ion-label>类型：{{dataTypeStr(prop.dataType)}}</ion-label>-->
-            <!--        <ion-label *ngIf="prop.dataUnit.length>0">单位:{{prop.dataUnit}}</ion-label>-->
         </ion-item>
 
         <ion-item>
-            <ion-input *ngIf="dataTypeInput(prop.dataType)===1" [(ngModel)]="prop.dataValue"></ion-input>
-            <ion-textarea *ngIf="dataTypeInput(prop.dataType)===2" [(ngModel)]="prop.dataValue"></ion-textarea>
+            <ion-input *ngIf="dataTypeInput(prop.dataType)===1" [(ngModel)]="prop.dataValue"
+                       [placeholder]="propPlaceholderText(i,prop)"></ion-input>
+            <ion-textarea *ngIf="dataTypeInput(prop.dataType)===2" [(ngModel)]="prop.dataValue"
+                          [placeholder]="propPlaceholderText(i,prop)"></ion-textarea>
         </ion-item>
     </ion-list>
 </ion-content>

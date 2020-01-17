@@ -28,7 +28,8 @@
     <div style="display: flex">
         <ion-item lines="none" style="width: 50%">
             <ion-icon name="bookmarks"></ion-icon>
-            <ion-select (ionChange)="themeChange($event)" cancelText="取消" interface="alert" okText="确定"
+            <ion-select (ionChange)="themeChange($event)" [interfaceOptions]="customAlertOptions"
+                        cancelText="取消" interface="alert" okText="确定" placeholder="请选择主题"
                         style="display: contents">
                 <ion-select-option selected value="-1">
                     全部
