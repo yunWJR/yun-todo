@@ -210,6 +210,17 @@ export class Tab1Page extends BasePage implements OnInit {
 
     // 选择
     async presentTagActionSheet(res: Theme) {
+        if (!res.tagList || res.tagList.length === 0) {
+            this.presentCommonAlert('无记录项');
+            return null;
+        }
+
+        if (res.tagList.length === 1) {
+            this.gotoAddTag(res.tagList[0].id);
+
+            return null;
+        }
+
         const btns = [];
         for (const tag of res.tagList) {
             if (tag.propList.length === 0) {
