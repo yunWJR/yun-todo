@@ -20,9 +20,9 @@ export class ThemeTemplateService {
     //     return this.httpClient.get(`/v1/api/record/themeTemplate/page`, {params});
     // }
     //
-    // info(themeId: number, params) {
-    //     return this.httpClient.get(`/v1/api/record/themeTemplate/${themeId}`, {params});
-    // }
+    info(themeId: number, params) {
+        return this.httpClient.get(`/v1/api/record/themeTemplate/${themeId}`, {params});
+    }
     //
     // delete(themeId: number) {
     //     return this.httpClient.delete(`/v1/api/record/themeTemplate/${themeId}`);

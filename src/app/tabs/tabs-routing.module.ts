@@ -32,6 +32,10 @@ const routes: Routes = [
                     {
                         path: 'mg/create',
                         loadChildren: () => import('../tabTheme/create-theme/create-theme.module').then(m => m.CreateThemePageModule)
+                    },
+                    {
+                        path: 'mg/tmpDetails',
+                        loadChildren: () => import('../tabTheme/theme-template/theme-template.module').then( m => m.ThemeTemplatePageModule)
                     }
                 ]
             },
