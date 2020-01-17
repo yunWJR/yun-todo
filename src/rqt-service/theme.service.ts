@@ -29,9 +29,12 @@ export class ThemeTagProp {
 }
 
 export class ThemeDto {
-    tmpId: number;
     name: string;
     remark: string;
+
+    // tmp
+    templateId: number;
+    themeName: string;
 }
 
 @Injectable({
@@ -62,5 +65,9 @@ export class ThemeService {
 
     create(body: ThemeDto) {
         return this.httpClient.post(`/v1/api/record/theme`, body);
+    }
+
+    createByTmp(body: ThemeDto) {
+        return this.httpClient.post(`/v1/api/record/theme/createByTemplate`, body);
     }
 }

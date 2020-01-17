@@ -3,6 +3,7 @@ import {BasePage} from '../../../base/base.page';
 import {IonInput, IonRefresher, NavController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {Theme, ThemeDto, ThemeService} from '../../../rqt-service/theme.service';
+import {ThemeTemplateService} from '../../../rqt-service/themeTemplate.service';
 
 @Component({
     selector: 'app-create-theme',
@@ -19,6 +20,7 @@ export class CreateThemePage extends BasePage implements OnInit {
     constructor(
         public navCtrl: NavController,
         public router: Router,
+        public themeTmpRqt: ThemeTemplateService,
         public themeRqt: ThemeService,
     ) {
         super(navCtrl);
@@ -43,13 +45,9 @@ export class CreateThemePage extends BasePage implements OnInit {
     // region rqt
 
     getThemeTmpListRqt() {
-        // todo
-        return;
-
         this.loadDataStart();
 
-        // todo
-        this.themeRqt.list().subscribe((res: Theme[]) => {
+        this.themeTmpRqt.list().subscribe((res: Theme[]) => {
             this.themeList = res;
 
             this.loadDataCmp();
@@ -62,11 +60,11 @@ export class CreateThemePage extends BasePage implements OnInit {
         this.loadDataStart();
 
         const dto = new ThemeDto();
-        dto.name = name;
+        dto.themeName = name;
+        dto.templateId = tmpId;
         dto.remark = remark;
-        dto.tmpId = tmpId;
 
-        this.themeRqt.create(dto).subscribe((res: Theme) => {
+        this.themeRqt.createByTmp(dto).subscribe((res: Theme) => {
             this.presentToast('模板创建成功!');
 
             this.navCtrl.back();
