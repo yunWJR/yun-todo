@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasePage} from '../../../base/base.page';
 import {IonRefresher, NavController} from '@ionic/angular';
-import {Router} from '@angular/router';
-import {Theme, ThemeService} from '../../../rqt-service/theme.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {NovelChapterData, NovelService} from '../../../rqt-service/novel.service';
 
 @Component({
     selector: 'app-theme-mg',
@@ -12,14 +12,23 @@ import {Theme, ThemeService} from '../../../rqt-service/theme.service';
 export class ThemeMgPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
-    themeList: Theme[];
+    novelId: number;
+    name: string;
+
+    list: NovelChapterData[];
 
     constructor(
         public navCtrl: NavController,
         public router: Router,
-        public themeRqt: ThemeService,
+        public novelRqt: NovelService,
+        public activeRoute: ActivatedRoute,
     ) {
         super(navCtrl);
+
+        this.activeRoute.queryParams.subscribe((params: Params) => {
+            this.novelId = params.novelId;
+            this.name = params.name;
+        });
     }
 
     // region lift cycle
@@ -28,7 +37,7 @@ export class ThemeMgPage extends BasePage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getThemeListRqt();
+        this.getChapterListRqt();
     }
 
     // 加载完成后，停止刷新动画
@@ -40,24 +49,13 @@ export class ThemeMgPage extends BasePage implements OnInit {
 
     // region rqt
 
-    getThemeListRqt() {
+    getChapterListRqt() {
         this.loadDataStart();
 
-        this.themeRqt.list().subscribe((res: Theme[]) => {
-            this.themeList = res;
+        this.novelRqt.chapterList(this.novelId).subscribe((res: NovelChapterData[]) => {
+            this.list = res;
 
             this.loadDataCmp();
-        }, (error: any) => {
-            this.handleRqtError(error);
-        });
-    }
-
-    deleteTheme(themeId: number) {
-        this.loadDataStart();
-
-        this.themeRqt.delete(themeId).subscribe((res: any) => {
-            this.presentToast('共删除' + res + '条数据');
-            this.getThemeListRqt();
         }, (error: any) => {
             this.handleRqtError(error);
         });
@@ -71,36 +69,19 @@ export class ThemeMgPage extends BasePage implements OnInit {
         this.navCtrl.back();
     }
 
-    addThemeOn() {
-        this.navCtrl.navigateForward('tabs/tabTheme/mg/create', {
-            queryParams: {}
-        });
-    }
-
-    clickThemeOn(theme: Theme) {
-        this.navCtrl.navigateForward('tabs/tabTheme/mg/details', {
+    chapterOn(item: NovelChapterData) {
+        this.navCtrl.navigateForward('tabs/novel/chapter', {
             queryParams: {
-                themeData: theme,
-                themeId: theme.id,
+                novelId: this.novelId,
+                chapterId: item.id,
             }
         });
-    }
-
-    deleteThemeOn(item: Theme, node: any) {
-        node.close();
-
-        this.presentAlertYesNo('提示', '确认删除模板[' + item.name + ']吗？',
-            (suc => {
-                this.deleteTheme(item.id);
-            }),
-            (cancel => {
-            }));
     }
 
     // endregion
 
     doRefresh() {
-        this.getThemeListRqt();
+        this.getChapterListRqt();
     }
 
     cmpRefresh() {

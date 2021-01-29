@@ -24,7 +24,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
         if (environment.production === true) {
             this.baseUrl = 'http://fffy.api.yunsoho.cn';
         } else {
-            this.baseUrl = 'http://127.0.0.1:11010';
+            this.baseUrl = 'http://127.0.0.1:12041';
         }
     }
 
@@ -104,7 +104,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
 
     private filterData(event: HttpResponse<any>): Observable<any> {
         if (event.body.code === 200) {
-            return of(new HttpResponse(Object.assign(event, {body: event.body.data})));
+            return of(new HttpResponse(Object.assign(event, {body: event.body.result})));
         }
 
         throw event;

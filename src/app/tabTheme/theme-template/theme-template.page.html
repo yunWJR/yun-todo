@@ -10,116 +10,47 @@
         <!--                <ion-icon slot="icon-only" name="add"></ion-icon>-->
         <!--            </ion-button>-->
         <!--        </ion-buttons>-->
-        <ion-title>记录主题模板详情</ion-title>
+        <ion-title>搜索</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-refresher #ionRefresher (ionRefresh)="doRefresh()" slot="fixed">
-        <ion-refresher-content
-                pullingIcon="arrow-dropdown"
-                pullingText="下拉刷新"
-                refreshingSpinner="circles"
-                refreshingText="刷新中...">
-        </ion-refresher-content>
-    </ion-refresher>
-
     <ion-card>
         <ion-item>
-            <ion-input readonly>{{themeData.name}}</ion-input>
-        </ion-item>
+            <ion-input [(ngModel)]="name" placeholder="请输入名称" slot="start"></ion-input>
 
-        <ion-card-content>
-            {{themeData.remark}}
-        </ion-card-content>
-    </ion-card>
-
-    <ion-item>
-        <ion-label>记录项</ion-label>
-        <!--        <ion-button (click)="addTagOn()" color="undefined">-->
-        <!--            <ion-icon color="primary" name="add" slot="icon-only"></ion-icon>-->
-        <!--        </ion-button>-->
-    </ion-item>
-
-    <ion-card *ngIf="addTag">
-        <ion-item color="light">
-            <ion-label>新记录项</ion-label>
-            <ion-button (click)="addNewTagOn()" color="undefined">
-                <ion-icon color="primary" name="save" slot="icon-only"></ion-icon>
+            <ion-button (click)="getThemeRqt()" color="undefined" slot="end">
+                <ion-icon color="primary" name="search" slot="icon-only"></ion-icon>
             </ion-button>
-        </ion-item>
-
-        <ion-item>
-            <ion-input [(ngModel)]="newTagName" placeholder="请输入记录项名称"></ion-input>
         </ion-item>
     </ion-card>
 
     <ion-list lines="full">
-        <ion-item-group *ngFor="let tag of themeData.tagList">
-            <ion-item color="medium" style="height: 1px;background:aliceblue;width: 100%"></ion-item>
+        <ion-item-group *ngFor="let item of list">
+            <ion-item-divider>
+                <ion-text color="primary" slot="start">
+                    <h1>{{item.name}}</h1>
+                </ion-text>
 
-            <ion-item-divider color="light">
-                <ion-label>{{tag.name}}</ion-label>
-
-                <!--                <ion-buttons color="undefined" slot="end">-->
-                <!--                    <ion-button (click)="deleteTagOn(tag)">-->
-                <!--                        <ion-icon color="danger" name="trash" slot="icon-only"></ion-icon>-->
-                <!--                    </ion-button>-->
-                <!--                    <ion-button (click)="editTagOn(tag)">-->
-                <!--                        <ion-icon color="medium" name="create" slot="icon-only"></ion-icon>-->
-                <!--                    </ion-button>-->
-                <!--                    <ion-button (click)="addTagPropOn(tag)">-->
-                <!--                        <ion-icon color="success" name="add" slot="icon-only"></ion-icon>-->
-                <!--                    </ion-button>-->
-                <!--                </ion-buttons>-->
+                <ion-button (click)="addItem(item)" color="undefined" slot="end">
+                    <ion-icon color="secondary" name="add" slot="icon-only"></ion-icon>
+                </ion-button>
             </ion-item-divider>
 
-            <ion-card *ngIf="isShowAddProp(tag)">
-                <ion-item color="light">
-                    <ion-label>新数据项</ion-label>
-                    <ion-button (click)="addNewTagPropOn()" color="undefined">
-                        <ion-icon color="primary" name="save" slot="icon-only"></ion-icon>
-                    </ion-button>
-                </ion-item>
-
-                <ion-item>
-                    <ion-label>名称:</ion-label>
-                    <ion-input [(ngModel)]="addTagPropData.name" placeholder="请输入数据项名称"></ion-input>
-                </ion-item>
-
-                <ion-item>
-                    <ion-label>类型:</ion-label>
-                    <ion-select (ionChange)="newPropDataTypeChangeOn($event)" [(ngModel)]="addTagPropData.dataType"
-                                [interfaceOptions]="propDataTypeAlertOptions"
-                                cancelText="取消" interface="action-sheet" okText="确定"
-                                placeholder="请选择数据项类型">
-                        <ion-select-option *ngFor="let type of dataTypeUtil.types" value="{{type.type}}">
-                            {{type.name}}
-                        </ion-select-option>
-                    </ion-select>
-                </ion-item>
-
-                <ion-item>
-                    <ion-label>单位:</ion-label>
-                    <ion-input [(ngModel)]="addTagPropData.dataUnit" placeholder="请输入数据项单位"></ion-input>
-                </ion-item>
-            </ion-card>
-
-            <ion-item *ngFor="let prop of tag. propList;let ip = index;" lines="full">
-                <ion-label>{{(ip + 1) + '）' + prop.name}}</ion-label>
-                <ion-label>类型：{{dataTypeUtil.nameByType(prop.dataType)}}</ion-label>
-                <ion-label>单位：{{prop.dataUnit}}</ion-label>
-
-                <!--                <ion-buttons color="undefined" slot="end">-->
-                <!--                    <ion-button (click)="editTagPropOn(prop)">-->
-                <!--                        <ion-icon color="medium" name="create" slot="icon-only"></ion-icon>-->
-                <!--                    </ion-button>-->
-                <!--                    <ion-button (click)="deleteTagPropOn(prop)">-->
-                <!--                        <ion-icon color="danger" name="close" slot="icon-only"></ion-icon>-->
-                <!--                    </ion-button>-->
-                <!--                </ion-buttons>-->
+            <ion-item>
+                <ion-label> 作者：{{item.author}}</ion-label>
             </ion-item>
 
+            <ion-item>
+                <ion-textarea>{{item.remark}}</ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>最新：{{item.lastChapter}}</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>状态：{{item.bookStatus}}</ion-label>
+            </ion-item>
         </ion-item-group>
     </ion-list>
 

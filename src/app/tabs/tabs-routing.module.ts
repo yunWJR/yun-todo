@@ -8,7 +8,7 @@ const routes: Routes = [
         component: TabsPage,
         children: [
             {
-                path: 'tabTheme',
+                path: 'novel',
                 children: [
                     {
                         path: '',
@@ -16,37 +16,18 @@ const routes: Routes = [
                             import('../tabTheme/tab1.module').then(m => m.Tab1PageModule)
                     },
                     {
-                        path: 'mg',
+                        path: 'chapter',
+                        loadChildren: () => import('../tabTheme/theme-details/theme-details.module').then(m => m.ThemeDetailsPageModule)
+                    },
+                    {
+                        path: 'chapterList',
                         loadChildren: () =>
                             import('../tabTheme/theme-mg/theme-mg.module').then(m => m.ThemeMgPageModule)
                     },
                     {
-                        path: 'statistics',
-                        loadChildren: () =>
-                            import('../tabTheme/theme-statistics/theme-statistics.module').then(m => m.ThemeStatisticsPageModule)
+                        path: 'search',
+                        loadChildren: () => import('../tabTheme/theme-template/theme-template.module').then(m => m.ThemeTemplatePageModule)
                     },
-                    {
-                        path: 'mg/details',
-                        loadChildren: () => import('../tabTheme/theme-details/theme-details.module').then(m => m.ThemeDetailsPageModule)
-                    },
-                    {
-                        path: 'mg/create',
-                        loadChildren: () => import('../tabTheme/create-theme/create-theme.module').then(m => m.CreateThemePageModule)
-                    },
-                    {
-                        path: 'mg/tmpDetails',
-                        loadChildren: () => import('../tabTheme/theme-template/theme-template.module').then( m => m.ThemeTemplatePageModule)
-                    }
-                ]
-            },
-            {
-                path: 'tabThemeMg',
-                children: [
-                    {
-                        path: '',
-                        loadChildren: () =>
-                            import('../tabThemeMg/tab2.module').then(m => m.Tab2PageModule)
-                    }
                 ]
             },
             {
@@ -61,14 +42,14 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: '/tabs/tabTheme',
+                redirectTo: '/tabs/novel',
                 pathMatch: 'full'
             }
         ]
     },
     {
         path: '',
-        redirectTo: '/tabs/tabTheme',
+        redirectTo: '/tabs/novel',
         pathMatch: 'full'
     }
 ];

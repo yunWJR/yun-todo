@@ -6,7 +6,7 @@ export class BasePage {
     // 加载框
     public loadingController: LoadingController;
     public loadView: HTMLIonLoadingElement = null;
-    public loadViewOn = false;
+    public loadViewOn = true;
 
     // alert
     public alertController: AlertController;
