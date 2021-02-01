@@ -24,6 +24,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
         if (environment.production === true) {
             this.baseUrl = 'http://fffy.api.yunsoho.cn';
         } else {
+            this.baseUrl = 'http://test.byb100.com:12041';
             this.baseUrl = 'http://127.0.0.1:12041';
         }
     }

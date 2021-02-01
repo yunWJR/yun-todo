@@ -3,6 +3,7 @@ import {BasePage} from '../../../base/base.page';
 import {IonRefresher, NavController} from '@ionic/angular';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {NovelChapterData, NovelService} from '../../../rqt-service/novel.service';
+import {HttpParams} from '@angular/common/http';
 
 @Component({
     selector: 'app-theme-mg',
@@ -14,6 +15,7 @@ export class ThemeMgPage extends BasePage implements OnInit {
 
     novelId: number;
     name: string;
+    sort = 0;
 
     list: NovelChapterData[];
 
@@ -37,7 +39,7 @@ export class ThemeMgPage extends BasePage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getChapterListRqt();
+        this.getChapterListRqt(false);
     }
 
     // 加载完成后，停止刷新动画
@@ -49,10 +51,14 @@ export class ThemeMgPage extends BasePage implements OnInit {
 
     // region rqt
 
-    getChapterListRqt() {
+    getChapterListRqt(force: boolean) {
         this.loadDataStart();
 
-        this.novelRqt.chapterList(this.novelId).subscribe((res: NovelChapterData[]) => {
+        let params = new HttpParams();
+        params = params.append('sort', this.sort.toString());
+        params = params.append('force', force ? '1' : '0');
+
+        this.novelRqt.chapterList(this.novelId, params).subscribe((res: NovelChapterData[]) => {
             this.list = res;
 
             this.loadDataCmp();
@@ -81,12 +87,22 @@ export class ThemeMgPage extends BasePage implements OnInit {
     // endregion
 
     doRefresh() {
-        this.getChapterListRqt();
+        this.getChapterListRqt(true);
     }
 
     cmpRefresh() {
         if (this.ionRefresher) {
             this.ionRefresher.complete();
         }
+    }
+
+    reverse() {
+        if (this.sort === 0) {
+            this.sort = 1;
+        } else {
+            this.sort = 0;
+        }
+
+        this.getChapterListRqt(false);
     }
 }

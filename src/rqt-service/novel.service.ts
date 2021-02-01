@@ -37,29 +37,6 @@ export class NovelChapterData {
     content: string;
 }
 
-export class ThemeTagProp {
-    id: number;
-    createTime: number;
-    name: string;
-    dataType: number;
-    dataTypeId: number;
-    dataUnit: string;
-}
-
-export class ThemeTagPropData {
-    id: number;
-    createTime: number;
-    orgValue: string;
-    dataType: number;
-    dataTypeId: number;
-}
-
-export class TagStatisticsDto {
-    themeId: number;
-    date: string;
-    tagIds: number[] = [];
-}
-
 @Injectable({
     providedIn: 'root'
 })
@@ -70,37 +47,32 @@ export class NovelService {
     ) {
     }
 
-    list(params) {
-        return this.httpClient.get(`/v1/api/novel/list`, {params});
-    }
-
-    page(params) {
-        return this.httpClient.get(`/v1/api/record/themeData/page`, {params});
-    }
-
-    chapterContent(chapterId: number, params) {
-        return this.httpClient.get(`/v1/api/novel/itemContent/${chapterId}`, {params});
-    }
-
-    chapterList(novelId: number) {
-        return this.httpClient.get(`/v1/api/novel/itemIndex/${novelId}`);
-    }
-
-    tagStatistics(body: TagStatisticsDto) {
-        return this.httpClient.post(`/v1/api/record/themeData/tagStatistics`, body);
-    }
-
-    delete(novelId: number) {
-        return this.httpClient.delete(`/v1/api/novel/${novelId}`);
-    }
-
-
     search(name: string, params) {
         return this.httpClient.get(`/v1/api/novel/search`, {params});
     }
 
     addItem(srcId: string) {
         return this.httpClient.post(`/v1/api/novel/add/${srcId}`, {});
+    }
+
+    delete(novelId: number) {
+        return this.httpClient.delete(`/v1/api/novel/${novelId}`);
+    }
+
+    list(params) {
+        return this.httpClient.get(`/v1/api/novel/list`, {params});
+    }
+
+    info(novelId: number) {
+        return this.httpClient.get(`/v1/api/novel/${novelId}`, {});
+    }
+
+    chapterList(novelId: number, params) {
+        return this.httpClient.get(`/v1/api/novel/chapterList/${novelId}`, {params});
+    }
+
+    chapterContent(chapterId: number, params) {
+        return this.httpClient.get(`/v1/api/novel/chapterContent/${chapterId}`, {params});
     }
 
     updateAllIndex() {
