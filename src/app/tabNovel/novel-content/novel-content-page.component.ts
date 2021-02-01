@@ -2,34 +2,34 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasePage} from '../../../base/base.page';
 import {IonRefresher, NavController} from '@ionic/angular';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {DateUtils} from '../../../utils/date.utils';
 import {NovelChapterData, NovelService} from '../../../rqt-service/novel.service';
-import {HttpParams} from '@angular/common/http';
 
 @Component({
-    selector: 'app-theme-mg',
-    templateUrl: './theme-mg.page.html',
-    styleUrls: ['./theme-mg.page.scss'],
+    selector: 'app-novel-content-page',
+    templateUrl: './novel-content-page.component.html',
+    styleUrls: ['./novel-content-page.component.scss'],
 })
-export class ThemeMgPage extends BasePage implements OnInit {
+export class NovelContentPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
     novelId: number;
-    name: string;
-    sort = 0;
+    chapterId: number;
 
-    list: NovelChapterData[];
+    data: NovelChapterData = new NovelChapterData();
 
     constructor(
         public navCtrl: NavController,
         public router: Router,
         public novelRqt: NovelService,
+        public dateUtils: DateUtils,
         public activeRoute: ActivatedRoute,
     ) {
         super(navCtrl);
 
         this.activeRoute.queryParams.subscribe((params: Params) => {
             this.novelId = params.novelId;
-            this.name = params.name;
+            this.chapterId = params.chapterId;
         });
     }
 
@@ -39,7 +39,7 @@ export class ThemeMgPage extends BasePage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getChapterListRqt(false);
+        this.getDataRqt();
     }
 
     // 加载完成后，停止刷新动画
@@ -51,15 +51,11 @@ export class ThemeMgPage extends BasePage implements OnInit {
 
     // region rqt
 
-    getChapterListRqt(force: boolean) {
+    getDataRqt() {
         this.loadDataStart();
 
-        let params = new HttpParams();
-        params = params.append('sort', this.sort.toString());
-        params = params.append('force', force ? '1' : '0');
-
-        this.novelRqt.chapterList(this.novelId, params).subscribe((res: NovelChapterData[]) => {
-            this.list = res;
+        this.novelRqt.chapterContent(this.chapterId, null).subscribe((res: NovelChapterData) => {
+            this.data = res;
 
             this.loadDataCmp();
         }, (error: any) => {
@@ -72,22 +68,14 @@ export class ThemeMgPage extends BasePage implements OnInit {
     // region handle
 
     nagBackOn() {
-        this.navCtrl.back();
-    }
-
-    chapterOn(item: NovelChapterData) {
-        this.navCtrl.navigateForward('tabs/novel/chapter', {
-            queryParams: {
-                novelId: this.novelId,
-                chapterId: item.id,
-            }
-        });
+        // this.navCtrl.back();
+        this.navCtrl.navigateBack('tabs/novel', {});
     }
 
     // endregion
 
     doRefresh() {
-        this.getChapterListRqt(true);
+        this.getDataRqt();
     }
 
     cmpRefresh() {
@@ -96,13 +84,21 @@ export class ThemeMgPage extends BasePage implements OnInit {
         }
     }
 
-    reverse() {
-        if (this.sort === 0) {
-            this.sort = 1;
-        } else {
-            this.sort = 0;
-        }
+    chapterOn() {
+        this.navCtrl.navigateForward('tabs/novel/chapterList', {
+            queryParams: {
+                novelId: this.novelId,
+            }
+        });
+    }
 
-        this.getChapterListRqt(false);
+    preChapter() {
+        this.chapterId = this.data.preId;
+        this.getDataRqt();
+    }
+
+    nexChapter() {
+        this.chapterId = this.data.nextId;
+        this.getDataRqt();
     }
 }

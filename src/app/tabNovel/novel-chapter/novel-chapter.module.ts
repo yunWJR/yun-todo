@@ -4,18 +4,18 @@ import {FormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {ThemeDetailsPageRoutingModule} from './theme-details-routing.module';
+import {NovelChapterPageRoutingModule} from './novel-chapter-routing.module';
 
-import {ThemeDetailsPage} from './theme-details.page';
+import {NovelChapterPage} from './novel-chapter-page.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        ThemeDetailsPageRoutingModule
+        NovelChapterPageRoutingModule
     ],
-    declarations: [ThemeDetailsPage]
+    declarations: [NovelChapterPage]
 })
-export class ThemeDetailsPageModule {
+export class NovelChapterPageModule {
 }

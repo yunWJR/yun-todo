@@ -7,6 +7,7 @@ todo tool of yun by ionic
 ```
 ionic serve
 
+ionic build web --prod
 
 ionic build
 ionic build --prod

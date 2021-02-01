@@ -7,11 +7,11 @@ import {BasePage} from '../../base/base.page';
 import {DateUtils} from '../../utils/date.utils';
 
 @Component({
-    selector: 'app-tab1',
-    templateUrl: 'tab1.page.html',
-    styleUrls: ['tab1.page.scss']
+    selector: 'app-tab-novel-page',
+    templateUrl: 'tab-novel-page.component.html',
+    styleUrls: ['tab-novel-page.component.scss']
 })
-export class Tab1Page extends BasePage implements OnInit {
+export class TabNovelPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
     list: NovelItemData[] = [];
@@ -33,7 +33,7 @@ export class Tab1Page extends BasePage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getListRqt();
+        this.getListRqt(false);
     }
 
     // 加载完成后，停止刷新动画
@@ -45,10 +45,11 @@ export class Tab1Page extends BasePage implements OnInit {
 
     // region rqt
 
-    getListRqt() {
+    getListRqt(force: boolean) {
         this.loadDataStart();
 
-        const params = new HttpParams();
+        let params = new HttpParams();
+        params = params.append('force', force ? '1' : '0');
 
         this.novelRqt.list(params).subscribe((res: NovelItemData[]) => {
             this.list = res;
@@ -63,7 +64,7 @@ export class Tab1Page extends BasePage implements OnInit {
         this.loadDataStart();
 
         this.novelRqt.delete(id).subscribe((res: any) => {
-            this.getListRqt();
+            this.getListRqt(false);
         }, (error: any) => {
             this.handleRqtError(error);
         });
@@ -92,12 +93,12 @@ export class Tab1Page extends BasePage implements OnInit {
 
     }
 
-    updateAllIndex() {
+    updateAllChapter() {
         this.loadDataStart();
 
-        this.novelRqt.updateAllIndex().subscribe((res: any) => {
+        this.novelRqt.updateAllChapter().subscribe((res: any) => {
             this.presentCommonAlert('刷新完成');
-            this.getListRqt();
+            this.getListRqt(false);
         }, (error: any) => {
             this.handleRqtError(error);
         });
@@ -106,7 +107,7 @@ export class Tab1Page extends BasePage implements OnInit {
     // endregion
 
     doRefresh() {
-        this.getListRqt();
+        this.getListRqt(true);
     }
 
     cmpRefresh() {

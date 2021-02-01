@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import {ThemeTemplatePage} from './theme-template.page';
+import {NovelContentPage} from './novel-content-page.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: ThemeTemplatePage
+        component: NovelContentPage
     }
 ];
 
@@ -14,5 +14,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class ThemeTemplatePageRoutingModule {
+export class NovelContentPageRoutingModule {
 }

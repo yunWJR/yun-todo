@@ -7,11 +7,11 @@ import {NovelItemData, NovelService} from '../../../rqt-service/novel.service';
 import {HttpParams} from '@angular/common/http';
 
 @Component({
-    selector: 'app-theme-template',
-    templateUrl: './theme-template.page.html',
-    styleUrls: ['./theme-template.page.scss'],
+    selector: 'app-novel-search-pag',
+    templateUrl: './novel-search-page.component.html',
+    styleUrls: ['./novel-search-page.component.scss'],
 })
-export class ThemeTemplatePage extends BasePage implements OnInit {
+export class NovelSearchPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
     name: string;

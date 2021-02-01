@@ -4,18 +4,18 @@ import {FormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {ThemeTemplatePageRoutingModule} from './theme-template-routing.module';
+import {NovelContentPageRoutingModule} from './novel-content-routing.module';
 
-import {ThemeTemplatePage} from './theme-template.page';
+import {NovelContentPage} from './novel-content-page.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        ThemeTemplatePageRoutingModule
+        NovelContentPageRoutingModule
     ],
-    declarations: [ThemeTemplatePage]
+    declarations: [NovelContentPage]
 })
-export class ThemeTemplatePageModule {
+export class NovelContentPageModule {
 }

@@ -4,18 +4,18 @@ import {FormsModule} from '@angular/forms';
 
 import {IonicModule} from '@ionic/angular';
 
-import {ThemeMgPageRoutingModule} from './theme-mg-routing.module';
+import {NovelSearchPageRoutingModule} from './novel-search-routing.module';
 
-import {ThemeMgPage} from './theme-mg.page';
+import {NovelSearchPage} from './novel-search-page.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        ThemeMgPageRoutingModule
+        NovelSearchPageRoutingModule
     ],
-    declarations: [ThemeMgPage]
+    declarations: [NovelSearchPage]
 })
-export class ThemeMgPageModule {
+export class NovelSearchPageModule {
 }

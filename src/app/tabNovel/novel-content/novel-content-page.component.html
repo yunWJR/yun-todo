@@ -2,7 +2,7 @@
     <ion-toolbar>
         <ion-buttons slot="secondary">
             <ion-button (click)="nagBackOn()" color="primary">
-                <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+                <ion-icon name="home" slot="icon-only"></ion-icon>
             </ion-button>
         </ion-buttons>
 
@@ -27,22 +27,18 @@
     </ion-refresher>
 
     <ion-card>
-        <ion-textarea style="padding-left: 4%;padding-right: 4%; font-size: 16pt">
+        <ion-textarea readonly="true" style="padding-left: 4%;padding-right: 4%; font-size: 16pt">
             {{data.content}}
         </ion-textarea>
-        <!--        <ion-card-content style="font-size: 16pt">-->
-        <!--            {{data.content}}-->
-        <!--        </ion-card-content>-->
     </ion-card>
 
-    <!-- Fixed Floating Action Button that does not scroll with the content -->
-    <ion-fab horizontal="start" slot="fixed" vertical="bottom">
-        <ion-fab-button (click)="preChapter()" color="">
+    <ion-fab *ngIf="data.preId!=null" horizontal="start" slot="fixed" vertical="bottom">
+        <ion-fab-button (click)="preChapter()" color="medium">
             <ion-icon name="arrow-back"></ion-icon>
         </ion-fab-button>
     </ion-fab>
 
-    <ion-fab horizontal="end" slot="fixed" vertical="bottom">
+    <ion-fab *ngIf="data.nextId!=null" horizontal="end" slot="fixed" vertical="bottom">
         <ion-fab-button (click)="nexChapter()" color="secondary">
             <ion-icon name="arrow-forward"></ion-icon>
         </ion-fab-button>

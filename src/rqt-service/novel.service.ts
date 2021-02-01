@@ -75,7 +75,7 @@ export class NovelService {
         return this.httpClient.get(`/v1/api/novel/chapterContent/${chapterId}`, {params});
     }
 
-    updateAllIndex() {
-        return this.httpClient.get(`/v1/api/novel/updateAllIndex`);
+    updateAllChapter() {
+        return this.httpClient.get(`/v1/api/novel/updateAllChapter`);
     }
 }

@@ -13,20 +13,20 @@ const routes: Routes = [
                     {
                         path: '',
                         loadChildren: () =>
-                            import('../tabTheme/tab1.module').then(m => m.Tab1PageModule)
+                            import('../tabNovel/tab-novel-page.module').then(m => m.Tab1PageModule)
                     },
                     {
                         path: 'chapter',
-                        loadChildren: () => import('../tabTheme/theme-details/theme-details.module').then(m => m.ThemeDetailsPageModule)
+                        loadChildren: () => import('../tabNovel/novel-content/novel-content.module').then(m => m.NovelContentPageModule)
                     },
                     {
                         path: 'chapterList',
                         loadChildren: () =>
-                            import('../tabTheme/theme-mg/theme-mg.module').then(m => m.ThemeMgPageModule)
+                            import('../tabNovel/novel-chapter/novel-chapter.module').then(m => m.NovelChapterPageModule)
                     },
                     {
                         path: 'search',
-                        loadChildren: () => import('../tabTheme/theme-template/theme-template.module').then(m => m.ThemeTemplatePageModule)
+                        loadChildren: () => import('../tabNovel/novel-search/novel-search.module').then(m => m.NovelSearchPageModule)
                     },
                 ]
             },
