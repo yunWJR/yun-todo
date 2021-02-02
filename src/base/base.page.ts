@@ -52,7 +52,7 @@ export class BasePage {
     }
 
     // 显示加载框
-    async presentLoading(msg: string) {
+    presentLoading(msg: string) {
         // 已经显示，不处理
         if (this.loadViewOn === true) {
             return;
@@ -60,6 +60,15 @@ export class BasePage {
 
         this.loadViewOn = true;
 
+        this.presentLoadingView(msg).then(r => {
+            if (!this.loadViewOn) {
+                this.disAbleLoadView();
+            }
+        });
+    }
+
+    // 显示加载框
+    async presentLoadingView(msg: string) {
         this.loadView = await this.loadingController.create({
             message: msg,
             duration: 600000, // 600秒
@@ -68,20 +77,38 @@ export class BasePage {
             // cssClass: null,
         });
 
+        if (!this.loadViewOn) {
+            return this.disAbleLoadView();
+        }
+
         await this.loadView.present();
 
-        const {role, data} = await this.loadView.onDidDismiss();
-        this.loadViewOn = false;
-        this.loadView = null;
+        if (!this.loadViewOn) {
+            this.disAbleLoadView();
+        }
     }
 
     // 关闭加载框
     disLoading() {
+        this.disLoadingView();
+
+        // 延迟200ms
+        // setTimeout(this.disLoadingView, 200);
+    }
+
+    disLoadingView() {
         if (this.loadView) {
             this.loadView.dismiss().then(r => {
-                // console.log(r);
+                this.disAbleLoadView();
             });
+        } else {
+            this.disAbleLoadView();
         }
+    }
+
+    disAbleLoadView() {
+        this.loadViewOn = false;
+        this.loadView = null;
     }
 
     // endregion
@@ -191,8 +218,6 @@ export class BasePage {
     // endregion
 
     handleRqtError(error: any) {
-        this.loadDataCmpHandle();
-
         this.loadDataCmp();
 
         console.log(error);

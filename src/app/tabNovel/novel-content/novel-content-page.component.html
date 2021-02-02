@@ -12,11 +12,11 @@
             </ion-button>
         </ion-buttons>
 
-        <ion-title>{{data.name}}</ion-title>
+        <ion-title *ngIf="data!=null">{{data.name}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #ionCtn *ngIf="data!=null">
     <ion-refresher #ionRefresher (ionRefresh)="doRefresh()" slot="fixed">
         <ion-refresher-content
                 pullingIcon="arrow-dropdown"
@@ -26,8 +26,9 @@
         </ion-refresher-content>
     </ion-refresher>
 
-    <ion-card>
-        <ion-textarea readonly="true" style="padding-left: 4%;padding-right: 4%; font-size: 16pt">
+    <ion-card *ngIf="data.content!=null">
+        <ion-textarea readonly="true"
+                      style="padding-left: 4%;padding-right: 4%; font-size: 16pt;    line-height: 26pt; background-color: wheat">
             {{data.content}}
         </ion-textarea>
     </ion-card>

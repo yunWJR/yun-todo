@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasePage} from '../../../base/base.page';
-import {IonRefresher, NavController} from '@ionic/angular';
+import {IonContent, IonRefresher, NavController} from '@ionic/angular';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DateUtils} from '../../../utils/date.utils';
 import {NovelChapterData, NovelService} from '../../../rqt-service/novel.service';
@@ -12,6 +12,8 @@ import {NovelChapterData, NovelService} from '../../../rqt-service/novel.service
 })
 export class NovelContentPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
+
+    @ViewChild('ionCtn', {read: IonContent, static: false}) ionCtn: IonContent;
 
     novelId: number;
     chapterId: number;
@@ -55,7 +57,12 @@ export class NovelContentPage extends BasePage implements OnInit {
         this.loadDataStart();
 
         this.novelRqt.chapterContent(this.chapterId, null).subscribe((res: NovelChapterData) => {
+            // 格式化
+            res.content = res.content.replace(new RegExp('　　    ', 'gm'), '\t');
+
             this.data = res;
+
+            this.ionCtn.scrollToTop();
 
             this.loadDataCmp();
         }, (error: any) => {

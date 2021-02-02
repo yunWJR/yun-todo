@@ -30,7 +30,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
             this.baseUrl = 'http://test.byb100.com:12041';
         } else {
             this.baseUrl = 'http://test.byb100.com:12041';
-            this.baseUrl = 'http://127.0.0.1:12041';
+            // this.baseUrl = 'http://127.0.0.1:12041';
         }
     }
 
