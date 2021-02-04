@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasePage} from '../../../base/base.page';
-import {IonContent, IonRefresher, NavController} from '@ionic/angular';
+import {IonContent, IonRefresher, IonTabBar, NavController} from '@ionic/angular';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DateUtils} from '../../../utils/date.utils';
 import {NovelChapterData, NovelService} from '../../../rqt-service/novel.service';
@@ -14,6 +14,8 @@ export class NovelContentPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
     @ViewChild('ionCtn', {read: IonContent, static: false}) ionCtn: IonContent;
+
+    @ViewChild('ionTabBar', {read: IonTabBar, static: false}) ionTabBar: IonTabBar;
 
     novelId: number;
     chapterId: number;

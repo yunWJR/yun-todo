@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'app-tabs',
@@ -6,8 +8,16 @@ import {Component} from '@angular/core';
     styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
+    isSubPage = false;
 
-    constructor() {
+    constructor(
+        private router: Router
+    ) {
+        this.router.events.pipe(
+            filter(e => e instanceof NavigationEnd))
+            .subscribe((e: any) => {
+                console.log(e.url.split('/').length);
+                this.isSubPage = e.url.split('/').length > 3 ? true : false;
+            });
     }
-
 }

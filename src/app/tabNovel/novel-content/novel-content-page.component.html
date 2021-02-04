@@ -33,16 +33,19 @@
         </ion-textarea>
     </ion-card>
 
-    <ion-fab *ngIf="data.preId!=null" horizontal="start" slot="fixed" vertical="bottom">
-        <ion-fab-button (click)="preChapter()" color="medium">
+    <ion-fab  horizontal="start" slot="fixed" vertical="bottom">
+        <ion-fab-button *ngIf="data.preId!=null" (click)="preChapter()" color="medium">
             <ion-icon name="arrow-back"></ion-icon>
         </ion-fab-button>
-    </ion-fab>
-
-    <ion-fab *ngIf="data.nextId!=null" horizontal="end" slot="fixed" vertical="bottom">
-        <ion-fab-button (click)="nexChapter()" color="secondary">
+        <ion-fab-button *ngIf="data.nextId!=null" (click)="nexChapter()" color="secondary">
             <ion-icon name="arrow-forward"></ion-icon>
         </ion-fab-button>
     </ion-fab>
+
+<!--    <ion-fab *ngIf="data.nextId!=null" horizontal="end" slot="fixed" vertical="bottom">-->
+<!--        <ion-fab-button (click)="nexChapter()" color="secondary">-->
+<!--            <ion-icon name="arrow-forward"></ion-icon>-->
+<!--        </ion-fab-button>-->
+<!--    </ion-fab>-->
 
 </ion-content>

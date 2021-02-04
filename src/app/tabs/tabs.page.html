@@ -1,6 +1,6 @@
 <ion-tabs>
 
-    <ion-tab-bar slot="bottom">
+    <ion-tab-bar [ngClass]="{'hide': isSubPage}" slot="bottom">
         <ion-tab-button tab="novel">
             <ion-icon name="book"></ion-icon>
             <ion-label>书屋</ion-label>
