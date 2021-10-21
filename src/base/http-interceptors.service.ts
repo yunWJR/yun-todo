@@ -22,15 +22,9 @@ export class HttpInterceptorsService implements HttpInterceptor {
         public dataStorage: DataStorage,
     ) {
         if (environment.production === true) {
-            // this.baseUrl = 'http://fffy.api.yunsoho.cn';
-
-            // yun-aliyun
-            this.baseUrl = 'http://47.106.189.179:12041';
-
-            this.baseUrl = 'http://test.byb100.com:12041';
+            this.baseUrl = 'http://110.42.224.157:10004';
         } else {
             this.baseUrl = 'http://110.42.224.157:10004';
-            // this.baseUrl = 'http://127.0.0.1:12041';
         }
     }
 
