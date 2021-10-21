@@ -1,36 +1,15 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons slot="secondary">
-            <ion-button (click)="nagBackOn()" color="primary">
-                <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-
-        <ion-buttons slot="primary">
-            <ion-button (click)="reverse()" color="primary">
-                <ion-icon name="{{this.sort===0?'arrow-down':'arrow-up'}}" slot="icon-only"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-
-        <ion-title>目录</ion-title>
+        <ion-title>{{title}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-refresher #ionRefresher (ionRefresh)="doRefresh()" slot="fixed">
-        <ion-refresher-content
-                pullingIcon="arrow-dropdown"
-                pullingText="下拉刷新"
-                refreshingSpinner="circles"
-                refreshingText="刷新中...">
-        </ion-refresher-content>
-    </ion-refresher>
 
-    <ion-virtual-scroll #ionVs [items]="list" approxItemHeight="40px">
-        <ion-item (click)="chapterOn(item)" *virtualItem="let item;">
-            <ion-label color="primary">
-                {{item.name}}
-            </ion-label>
-        </ion-item>
-    </ion-virtual-scroll>
+    <video width="100%" height="100%" controls>
+        <source src="{{videoUrl}}" type="video/mp4">
+        <source src="{{videoUrl}}" type="video/ogg">
+        您的浏览器不支持 video 标签。
+    </video>
+
 </ion-content>

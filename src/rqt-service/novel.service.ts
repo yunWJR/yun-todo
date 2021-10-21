@@ -1,23 +1,24 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-export class NovelItemData {
-    id: number;
-    srcId: string;
-    createTime: number;
-    updateTime: number;
-    name: string;
+export class PageData {
+    pageIndex: number;
+    pageSize: number;
+    totalCount: number;
+    totalPage: number;
+
+    results: FckItemData[] = null;
+}
+
+export class FckItemData {
     author: string;
-    remark: string;
-    img: string;
-
-    bookStatus: string;
-    lastChapter: string;
-    cname: string;
-
-    curChapterId: number;
-    curChapter: string;
-    newChapter: boolean;
+    title: string;
+    type: string;
+    content: string;
+    image: string;
+    videoUrl: string;
+    createTime: string;
+    channelId: string;
 }
 
 export class NovelChapterData {
@@ -60,7 +61,7 @@ export class NovelService {
     }
 
     list(params) {
-        return this.httpClient.get(`/v1/api/novel/list`, {params});
+        return this.httpClient.get(`/fck-api/v1/api/fck/page`, {params});
     }
 
     info(novelId: number) {

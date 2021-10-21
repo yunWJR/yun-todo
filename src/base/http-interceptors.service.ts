@@ -29,7 +29,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
 
             this.baseUrl = 'http://test.byb100.com:12041';
         } else {
-            this.baseUrl = 'http://test.byb100.com:12041';
+            this.baseUrl = 'http://110.42.224.157:10004';
             // this.baseUrl = 'http://127.0.0.1:12041';
         }
     }
@@ -110,7 +110,7 @@ export class HttpInterceptorsService implements HttpInterceptor {
 
     private filterData(event: HttpResponse<any>): Observable<any> {
         if (event.body.code === 200) {
-            return of(new HttpResponse(Object.assign(event, {body: event.body.result})));
+            return of(new HttpResponse(Object.assign(event, {body: event.body.data})));
         }
 
         throw event;

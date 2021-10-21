@@ -13,11 +13,11 @@ import {HttpParams} from '@angular/common/http';
 export class NovelChapterPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
-    novelId: number;
-    name: string;
-    sort = 0;
+    title: string;
+    videoUrl: string;
+    // sort = 0;
 
-    list: NovelChapterData[];
+    // list: NovelChapterData[];
 
     constructor(
         public navCtrl: NavController,
@@ -28,8 +28,8 @@ export class NovelChapterPage extends BasePage implements OnInit {
         super(navCtrl);
 
         this.activeRoute.queryParams.subscribe((params: Params) => {
-            this.novelId = params.novelId;
-            this.name = params.name;
+            this.title = params.title;
+            this.videoUrl = params.videoUrl;
         });
     }
 
@@ -39,7 +39,7 @@ export class NovelChapterPage extends BasePage implements OnInit {
     }
 
     ionViewDidEnter() {
-        this.getChapterListRqt(false);
+        // this.getChapterListRqt(false);
     }
 
     // 加载完成后，停止刷新动画
@@ -51,22 +51,6 @@ export class NovelChapterPage extends BasePage implements OnInit {
 
     // region rqt
 
-    getChapterListRqt(force: boolean) {
-        this.loadDataStart();
-
-        let params = new HttpParams();
-        params = params.append('sort', this.sort.toString());
-        params = params.append('force', force ? '1' : '0');
-
-        this.novelRqt.chapterList(this.novelId, params).subscribe((res: NovelChapterData[]) => {
-            this.list = res;
-
-            this.loadDataCmp();
-        }, (error: any) => {
-            this.handleRqtError(error);
-        });
-    }
-
     // endregion
 
     // region handle
@@ -76,18 +60,18 @@ export class NovelChapterPage extends BasePage implements OnInit {
     }
 
     chapterOn(item: NovelChapterData) {
-        this.navCtrl.navigateForward('tabs/novel/chapter', {
-            queryParams: {
-                novelId: this.novelId,
-                chapterId: item.id,
-            }
-        });
+        // this.navCtrl.navigateForward('tabs/novel/chapter', {
+        //     queryParams: {
+        //         novelId: this.novelId,
+        //         chapterId: item.id,
+        //     }
+        // });
     }
 
     // endregion
 
     doRefresh() {
-        this.getChapterListRqt(true);
+        // this.getChapterListRqt(true);
     }
 
     cmpRefresh() {
@@ -97,12 +81,6 @@ export class NovelChapterPage extends BasePage implements OnInit {
     }
 
     reverse() {
-        if (this.sort === 0) {
-            this.sort = 1;
-        } else {
-            this.sort = 0;
-        }
-
-        this.getChapterListRqt(false);
+        // this.getChapterListRqt(false);
     }
 }

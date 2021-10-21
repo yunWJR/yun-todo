@@ -3,7 +3,7 @@ import {BasePage} from '../../../base/base.page';
 import {IonRefresher, NavController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DateUtils} from '../../../utils/date.utils';
-import {NovelItemData, NovelService} from '../../../rqt-service/novel.service';
+import {FckItemData, NovelService} from '../../../rqt-service/novel.service';
 import {HttpParams} from '@angular/common/http';
 
 @Component({
@@ -16,7 +16,7 @@ export class NovelSearchPage extends BasePage implements OnInit {
 
     name: string;
 
-    list: NovelItemData[] = [];
+    list: FckItemData[] = [];
 
     constructor(
         public navCtrl: NavController,
@@ -82,17 +82,5 @@ export class NovelSearchPage extends BasePage implements OnInit {
         if (this.ionRefresher) {
             this.ionRefresher.complete();
         }
-    }
-
-    addItem(item: NovelItemData) {
-        this.loadDataStart();
-
-        this.novelRqt.addItem(item.srcId).subscribe((res: any) => {
-            this.presentCommonAlert('添加成功');
-
-            this.loadDataCmp();
-        }, (error: any) => {
-            this.handleRqtError(error);
-        });
     }
 }

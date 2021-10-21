@@ -1,17 +1,17 @@
 <ion-header mode="ios" style="margin-bottom: 0px">
     <ion-toolbar>
-        <ion-buttons hidden="true" slot="secondary">
-            <ion-button (click)="mgThemeOn()" color="primary">
-                管理
-            </ion-button>
-        </ion-buttons>
-        <ion-buttons hidden="true" slot="primary">
-            <ion-button (click)="updateAllChapter()" color="primary">
-                刷新
-            </ion-button>
-        </ion-buttons>
+        <!--        <ion-buttons hidden="true" slot="secondary">-->
+        <!--            <ion-button (click)="mgThemeOn()" color="primary">-->
+        <!--                管理-->
+        <!--            </ion-button>-->
+        <!--        </ion-buttons>-->
+        <!--        <ion-buttons hidden="true" slot="primary">-->
+        <!--            <ion-button (click)="updateAllChapter()" color="primary">-->
+        <!--                刷新-->
+        <!--            </ion-button>-->
+        <!--        </ion-buttons>-->
         <ion-title>
-            我的书屋
+            视频列表
         </ion-title>
     </ion-toolbar>
 
@@ -34,23 +34,17 @@
                 <ion-item (click)="itemOn(item)">
                     <ion-label class="ion-text-wrap">
                         <ion-text color="primary">
-                            <h1>{{item.name}}</h1>
+                            <h1>{{item.title}}</h1>
                         </ion-text>
                         <ion-text color="medium">
-                            <p>最新：{{item.lastChapter}}</p>
+                            <p>作者：{{item.author}}  创建时间：{{item.createTime}}</p>
                         </ion-text>
-                        <ion-text *ngIf="item.newChapter" color="danger">
-                            <p>有更新</p>
+
+                        <ion-text *ngIf="item. content" color="danger">
+                            <p>{{item.content}}</p>
                         </ion-text>
                     </ion-label>
                 </ion-item>
-
-                <ion-item-options>
-                    <ion-item-option (click)="deleteOn(item,ionSlide)" color="danger">
-                        <ion-icon name="close" slot="end"></ion-icon>
-                        删除
-                    </ion-item-option>
-                </ion-item-options>
             </ion-item-sliding>
 
         </ion-item-group>

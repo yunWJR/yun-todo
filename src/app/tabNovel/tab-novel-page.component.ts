@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActionSheetController, IonRefresher, NavController, PopoverController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {NovelItemData, NovelService} from '../../rqt-service/novel.service';
+import {FckItemData, NovelService, PageData} from '../../rqt-service/novel.service';
 import {HttpParams} from '@angular/common/http';
 import {BasePage} from '../../base/base.page';
 import {DateUtils} from '../../utils/date.utils';
@@ -14,7 +14,8 @@ import {DateUtils} from '../../utils/date.utils';
 export class TabNovelPage extends BasePage implements OnInit {
     @ViewChild('ionRefresher', {read: IonRefresher, static: false}) ionRefresher: IonRefresher;
 
-    list: NovelItemData[] = [];
+    pData: PageData = null;
+    list: FckItemData[] = [];
 
     constructor(
         public navCtrl: NavController,
@@ -51,8 +52,11 @@ export class TabNovelPage extends BasePage implements OnInit {
         let params = new HttpParams();
         params = params.append('force', force ? '1' : '0');
 
-        this.novelRqt.list(params).subscribe((res: NovelItemData[]) => {
-            this.list = res;
+        this.novelRqt.list(params).subscribe((res: PageData) => {
+            console.log(res);
+
+            this.pData = res;
+            this.list = res.results;
 
             this.loadDataCmp();
         }, (error: any) => {
@@ -76,17 +80,6 @@ export class TabNovelPage extends BasePage implements OnInit {
 
     addOn() {
         this.navCtrl.navigateForward('tabs/novel/search', {});
-    }
-
-    deleteOn(item: NovelItemData, node: any) {
-        node.close();
-
-        this.presentAlertYesNo('提示', '确认删除吗？',
-            (suc => {
-                this.deleteNovelRqt(item.id);
-            }),
-            (cancel => {
-            }));
     }
 
     mgThemeOn() {
@@ -117,11 +110,11 @@ export class TabNovelPage extends BasePage implements OnInit {
     }
 
 
-    itemOn(item: NovelItemData) {
-        this.navCtrl.navigateForward('tabs/novel/chapter', {
+    itemOn(item: FckItemData) {
+        this.navCtrl.navigateForward('tabs/novel/chapterList', {
             queryParams: {
-                novelId: item.id,
-                chapterId: item.curChapterId,
+                title: item.title,
+                videoUrl: item.videoUrl,
             }
         });
     }
